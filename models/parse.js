@@ -18,7 +18,7 @@ exports.getJokes = function(callback) {
 		var text = [];
 	    $("div[class='topicbox']").each(function(idx, e) {
 	    	if($(e).children("div[class='text']").html() != null) {
-	    	text.push(he.decode($(e).children("div[class='text']").html()).replace("<br>","\n"));
+	    	text.push(he.decode($(e).children("div[class='text']").html()).split("<br>").join("\n"));
 	 }
 	    })
 	    callback(text);
