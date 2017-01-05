@@ -14,7 +14,7 @@ var user = sequelize.define("User", {
 	ip: Sequelize.STRING
 })
 
-user.sync.then(function() {});
+user.sync().then(function() {});
 
 
 
