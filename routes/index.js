@@ -14,7 +14,8 @@ router.get('/', function(req, res, next) {
 router.post("/", function(req, res, next) {
   var event = req.body.event;
   var ip = req.connection.remoteAddress;
-  var errMessage = "Некорректный ввод";
+
+  var errMessage = "Некорректный ввод. Введите команду '/r',чтобы получить случайный анекдот. Команда '/m',чтобы получить 20 случайных анекдотов";
   if(event == "user/unfollow") {
   	let userId = req.body.data.id;
   	db.destroy({where:{userId: userId, ip: ip}});
