@@ -17,7 +17,9 @@ exports.getJokes = function(callback) {
 		var $ = cheerio.load(page);
 		var text = [];
 	    $("div[class='topicbox']").each(function(idx, e) {
+	    	if($(e).children("div[class='text']") != null) {
 	    	text.push(he.decode($(e).children("div[class='text']").html()).replace("<br>","\n"));
+	 }
 	    })
 	    callback(text);
 	})
