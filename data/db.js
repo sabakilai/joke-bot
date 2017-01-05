@@ -4,7 +4,7 @@ var sequelize = new Sequelize("botdb", "root", "root", {
 	dialect: "postgres"
 });
 
-var user = sequelize.define("User", {
+var user = sequelize.define("user", {
 	id: {
 		type: Sequelize.INTEGER,
 		autoIncrement: true,

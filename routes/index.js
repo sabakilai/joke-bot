@@ -26,7 +26,7 @@ router.post("/", function(req, res, next) {
   console.log("user follows");
   newChat(userId, TOKEN, ip, function(err, res, body) {
   	let chatId = body.data.id;
-  	let message = "Здравствуйте!Я буду присылать вам самые свежие анекдоты.Введите команду '/r',чтобы получить случайный анекдот.Команда '/m',чтобы получить 20 случайных анекдотов";
+  	let message = "Здравствуйте!Я буду присылать вам самые свежие анекдоты. Введите команду '/r',чтобы получить случайный анекдот. Команда '/m',чтобы получить 20 случайных анекдотов";
     sms(message, chatId, TOKEN, ip);
   })
   }
