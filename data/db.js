@@ -7,7 +7,7 @@ var sequelize = new Sequelize("botdb", "root", "root", {
 var user = sequelize.define("User", {
 	id: {
 		type: Sequelize.INTEGER,
-		autoincrement: true,
+		autoIncrement: true,
 		primaryKey: true
 	},
 	userId: Sequelize.INTEGER,
