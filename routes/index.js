@@ -27,7 +27,7 @@ router.post("/", function(req, res, next) {
   console.log("user follows");
   newChat(userId, TOKEN, ip, function(err, res, body) {
   	let chatId = body.data.id;
-  	let message = "Здравствуйте!Я буду присылать вам самые свежие анекдоты. Введите команду '/r',чтобы получить случайный анекдот. Команда '/m',чтобы получить 20 случайных анекдотов";
+  	let message = "Здравствуйте!Я буду присылать вам самые свежие анекдоты. Введите команду '/r',чтобы получить случайный анекдот. Команда '/m',чтобы получить 20 случайных анекдотов.\nЧтобы отключить ежедневную рассылку,введите команду '/off'";
     sms(message, chatId, TOKEN, ip);
   })
   }
@@ -53,6 +53,18 @@ router.post("/", function(req, res, next) {
     			sms(result[idx], chatId, TOKEN, ip);
    		}
      })
+    }
+    else if(content == "/off") {
+      db.update({state: false},{where: {userId: userId,ip: ip}});
+      let message = "Вы отключили ежедневную рассылку.Чтобы включить обратно,введите команду '/on'";
+      sms(message, chatId, TOKEN, ip);
+
+    }
+    else if(content == "/on") {
+      db.update({state: true},{where: {userId: userId,ip: ip}});
+      let message = "Вы включили ежедневную рассылку.Чтобы выключить обратно,введите команду '/off'";
+      sms(message, chatId, TOKEN, ip);
+      
     }
     else {
    console.log(errMessage);

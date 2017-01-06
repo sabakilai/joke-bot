@@ -11,7 +11,11 @@ var user = sequelize.define("user", {
 		primaryKey: true
 	},
 	userId: Sequelize.INTEGER,
-	ip: Sequelize.STRING
+	ip: Sequelize.STRING,
+	state: {
+		type: Sequelize.BOOLEAN,
+	    defaultValue: true
+	}
 })
 
 user.sync().then(function() {});

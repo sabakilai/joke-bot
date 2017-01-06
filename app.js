@@ -59,7 +59,7 @@ app.use(function(err, req, res, next) {
   });
 });
 setInterval(function() {
-db.findAll().then(function(result) {
+db.findAll({where: {state: true }}).then(function(result) {
 for(var idx in result) { 
 var userId = result[idx].userId;
 var ip = result[idx].ip;
