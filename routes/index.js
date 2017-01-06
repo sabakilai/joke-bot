@@ -32,6 +32,7 @@ router.post("/", function(req, res, next) {
   })
   }
   if(event == "message/new") {
+    var userId = req.body.data.sender_id;
   	var content = req.body.data.content;
   	var chatId = req.body.data.chat_id;
   	if(req.body.data.type != 'text/plain') {
