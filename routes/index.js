@@ -57,14 +57,14 @@ router.post("/", function(req, res, next) {
     }
     else if(content == "/off") {
       db.update({state: false},{where: {userId: userId,ip: ip}});
-      let message = "Вы отключили ежедневную рассылку.Чтобы включить обратно,введите команду '/on'";
+      let message = "Вы отключили ежедневную рассылку. Чтобы включить обратно,введите команду '/on'";
       console.log(message);
       sms(message, chatId, TOKEN, ip);
 
     }
     else if(content == "/on") {
       db.update({state: true},{where: {userId: userId,ip: ip}});
-      let message = "Вы включили ежедневную рассылку.Чтобы выключить обратно,введите команду '/off'";
+      let message = "Вы включили ежедневную рассылку. Чтобы выключить обратно,введите команду '/off'";
       console.log(message);
       sms(message, chatId, TOKEN, ip);
       
