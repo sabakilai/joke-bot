@@ -4,7 +4,7 @@ var request=require("request");
 module.exports=function(message, chatId, ip, callback){
 	var token;
   if(ip === "::ffff:77.235.20.133") {
-    url = "http://77.235.20.133:3000/chats/create",
+    url = "http://77.235.20.133:3000/chats/",
     token = config.token.staging;
   }
   else {
