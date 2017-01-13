@@ -5,7 +5,6 @@ var sms = require("../models/sms.js");
 var newChat = require("../models/newchat.js");
 var parse = require("../models/parse.js");
 var router = express.Router();
-var TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NDM0LCJwaG9uZSI6IjEyMzQ1Njc4Njc1NDUzNDI0MyIsInBhc3N3b3JkIjoiJDJhJDEwJHV4TnlHSlBuYkJjMUNDSVFLUi9nNWV4UnFNN1c0QUQyR2hIQzRBdWJwN1V5dVlnbDBRRWRPIiwiaXNCb3QiOnRydWUsImNvdW50cnkiOnRydWUsImlhdCI6MTQ4MzU5NTI5N30.ZLZ9BtUwhJqSMJgWc0Ln7iYT7W944BB4RAIIDMVkzg8";
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
@@ -25,10 +24,10 @@ router.post("/", function(req, res, next) {
   let userId = req.body.data.id;
   db.create({userId: userId, ip: ip});
   console.log("user follows");
-  newChat(userId, TOKEN, ip, function(err, res, body) {
+  newChat(userId, ip, function(err, res, body) {
   	let chatId = body.data.id;
   	let message = "Здравствуйте!Я буду присылать вам самые свежие анекдоты. Введите команду '/r',чтобы получить случайный анекдот. Команда '/m',чтобы получить 20 случайных анекдотов.\nЧтобы отключить ежедневную рассылку,введите команду '/off'";
-    sms(message, chatId, TOKEN, ip);
+    sms(message, chatId, ip);
   })
   }
   if(event == "message/new") {
@@ -37,21 +36,21 @@ router.post("/", function(req, res, next) {
   	var chatId = req.body.data.chat_id;
   	if(req.body.data.type != 'text/plain') {
   		console.log(errMessage);
-  		sms(errMessage, chatId, TOKEN, ip);
+  		sms(errMessage, chatId, ip);
   		return;
   	}
     
     if(content == "/r") {
      parse.getRandomJoke(function(result) {
      	console.log(result);
-     	sms(result, chatId, TOKEN, ip);
+     	sms(result, chatId, ip);
      })
     }
     else if(content == "/m") {
         	parse.getJokes(function(result) {
           	for(var idx in result) {
     			console.log(result[idx]);
-    			sms(result[idx], chatId, TOKEN, ip);
+    			sms(result[idx], chatId, ip);
    		}
      })
     }
@@ -59,19 +58,19 @@ router.post("/", function(req, res, next) {
       db.update({state: false},{where: {userId: userId,ip: ip}});
       let message = "Вы отключили ежедневную рассылку. Чтобы включить обратно,введите команду '/on'";
       console.log(message);
-      sms(message, chatId, TOKEN, ip);
+      sms(message, chatId, ip);
 
     }
     else if(content == "/on") {
       db.update({state: true},{where: {userId: userId,ip: ip}});
       let message = "Вы включили ежедневную рассылку. Чтобы выключить обратно,введите команду '/off'";
       console.log(message);
-      sms(message, chatId, TOKEN, ip);
+      sms(message, chatId, ip);
       
     }
     else {
    console.log(errMessage);
-  		sms(errMessage, chatId, TOKEN, ip);
+  		sms(errMessage, chatId, ip);
     }
   }
   res.end();
