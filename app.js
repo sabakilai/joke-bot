@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var db = require("./data/db.js");
+var async = require('async')
 var sms = require("./models/sms.js");
 var newChat = require("./models/newchat.js");
 var parse = require("./models/parse.js");
@@ -59,18 +60,21 @@ app.use(function(err, req, res, next) {
   });
 });
 setInterval(function() {
-db.findAll({where: {state: true }}).then(function(result) {
-for(var idx in result) { 
-parse.getRandomJoke(function(result) {
-  var userId = result[idx].userId;
-  var ip = result[idx].ip;
+db.findAll({where: {state: true }}).then(function(results) {
+async.each(results, function(result,callback){
+parse.getRandomJoke(function(output) {
+  var userId = result.userId;
+  var ip = result.ip;
   console.log(result);
   newChat(userId, TOKEN, ip, function(err, res, body) {
     var chatId = body.data.id; 
-    sms(result, chatId, TOKEN, ip);
+    sms(output, chatId, TOKEN, ip, function(){
+      callback();
+    });
+
   })
 })
-}
+})
 });
 
 }, 18000000)
