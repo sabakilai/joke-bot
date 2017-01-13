@@ -61,12 +61,12 @@ app.use(function(err, req, res, next) {
 setInterval(function() {
 db.findAll({where: {state: true }}).then(function(result) {
 for(var idx in result) { 
-var userId = result[idx].userId;
-var ip = result[idx].ip;
 parse.getRandomJoke(function(result) {
+  var userId = result[idx].userId;
+  var ip = result[idx].ip;
   console.log(result);
   newChat(userId, TOKEN, ip, function(err, res, body) {
-    var chatId = body.data.chat_id; 
+    var chatId = body.data.id; 
     sms(result, chatId, TOKEN, ip);
   })
 })
