@@ -9,7 +9,7 @@ module.exports=function(userId, ip, callback)
     token = config.token.staging;
   }
   else {
-    url = "http://api.namba1.co/chats/create";
+    url = "https://api.namba1.co/chats/create";
     token = config.token.production;
   }
   var data={
