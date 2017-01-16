@@ -14,7 +14,7 @@ router.post("/", function(req, res, next) {
   var event = req.body.event;
   var ip = req.connection.remoteAddress;
 
-  var errMessage = "Некорректный ввод. Введите команду '/r',чтобы получить случайный анекдот. Команда '/m',чтобы получить 20 случайных анекдотов";
+  var errMessage = "Некорректный ввод.Введите нужную цифру:\n\uE21Cполучить случайный анекдот.\n\uE21Dполучить 20 случайных анекдотов.\n\uE21Eотключить ежедневную рассылку,введите команду '/off'";
   if(event == "user/unfollow") {
   	let userId = req.body.data.id;
   	db.destroy({where:{userId: userId, ip: ip}});
@@ -57,8 +57,10 @@ router.post("/", function(req, res, next) {
     else if(content == "3") {
       db.find({where: {state: false, userId: userId, ip: ip}})
       .then(function(user) {
+        console.log(user);
+        let message = "";
         if(user) {
-          let message = "Рассылка уже отключена.\n\uE21FВключить обратно";
+          message = "Рассылка уже отключена.\n\uE21FВключить обратно";
         } else {
           db.update({state: false},{where: {userId: userId,ip: ip}});
           message = "Вы отключили ежедневную рассылку.\n\uE21FВключить обратно";
