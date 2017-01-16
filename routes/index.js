@@ -26,7 +26,7 @@ router.post("/", function(req, res, next) {
   console.log("user follows");
   newChat(userId, ip, function(err, res, body) {
   	let chatId = body.data.id;
-  	let message = "Здравствуйте!Я буду присылать вам самые свежие анекдоты. Введите команду '/r',чтобы получить случайный анекдот. Команда '/m',чтобы получить 20 случайных анекдотов.\nЧтобы отключить ежедневную рассылку,введите команду '/off'";
+  	let message = "Здравствуйте!Я буду присылать вам самые свежие анекдоты. Введите нужную цифру:\n\uE21Cполучить случайный анекдот.\n\uE21Dполучить 20 случайных анекдотов.\n\uE21Eотключить ежедневную рассылку,введите команду '/off'";
     sms(message, chatId, ip);
   })
   }
@@ -40,13 +40,13 @@ router.post("/", function(req, res, next) {
   		return;
   	}
     
-    if(content == "/r") {
+    if(content == "1") {
      parse.getRandomJoke(function(result) {
      	console.log(result);
      	sms(result, chatId, ip);
      })
     }
-    else if(content == "/m") {
+    else if(content == "2") {
         	parse.getJokes(function(result) {
           	for(var idx in result) {
     			console.log(result[idx]);
@@ -54,16 +54,23 @@ router.post("/", function(req, res, next) {
    		}
      })
     }
-    else if(content == "/off") {
-      db.update({state: false},{where: {userId: userId,ip: ip}});
-      let message = "Вы отключили ежедневную рассылку. Чтобы включить обратно,введите команду '/on'";
-      console.log(message);
-      sms(message, chatId, ip);
+    else if(content == "3") {
+      db.find({where: {state: false, userId: userId, ip: ip}})
+      .then(function(user) {
+        if(user) {
+          let message = "Рассылка уже отключена.\n\uE21FВключить обратно";
+        } else {
+          db.update({state: false},{where: {userId: userId,ip: ip}});
+          message = "Вы отключили ежедневную рассылку.\n\uE21FВключить обратно";
+        }
+        console.log(message);
+        sms(message, chatId, ip);
+      })
 
     }
-    else if(content == "/on") {
+    else if(content == "4") {
       db.update({state: true},{where: {userId: userId,ip: ip}});
-      let message = "Вы включили ежедневную рассылку. Чтобы выключить обратно,введите команду '/off'";
+      let message = "Вы включили ежедневную рассылку.\n\uE21CВыключить обратно";
       console.log(message);
       sms(message, chatId, ip);
       
