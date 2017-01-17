@@ -57,13 +57,9 @@ router.post("/", function(req, res, next) {
         }
         else if(content == "2") {
           parse.getJokes(function(result) {
-          	async.forEachOf(result, function(joke, idx, callback) {
-              if(idx == 10) {
-                console.log(idx);
-                return callback("stop");
-              }
-              sms(joke, chatId, ip, function() {
-                callback();
+          	async.times(10, function(idx, callback) {
+              sms(result[idx], chatId, ip, function(err) {
+                next(err);
               });
             }, function(err) {
               sms("Хотите ли еще получить свежий анекдот?"+commandMessage(user), chatId, ip);
