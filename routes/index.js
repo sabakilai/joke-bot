@@ -14,7 +14,7 @@ router.post("/", function(req, res, next) {
   var ip = req.connection.remoteAddress;
     var event = req.body.event;
     var commandMessage = function(user) {
-      return "Введите нужную цифру:\n\uE21Cполучить случайный анекдот.\n\uE21Dполучить 20 случайных анекдотов.\n\uE21E"+(user.state ? "Отключить" : "Включить")+" ежедневную рассылку.";
+      return " Введите нужную цифру:\n\uE21Cполучить случайный анекдот.\n\uE21Dполучить 20 случайных анекдотов.\n\uE21E"+(user.state ? "Отключить" : "Включить")+" ежедневную рассылку.";
     }
     if(event == "user/unfollow") {
     	let userId = req.body.data.id;
@@ -49,12 +49,14 @@ router.post("/", function(req, res, next) {
         if(content == "1") {
          parse.getRandomJoke(function(result) {
          	console.log(result);
-         	sms(result, chatId, ip);
+         	sms(result, chatId, ip, function() {
+            sms("Хотите ли еще получить свежий анекдот? "+commandMessage(user), chatId, ip);
+          });
          })
         }
         else if(content == "2") {
             	parse.getJokes(function(result) {
-              	for(var idx in result) {
+              	for(var idx = 0; idx<10; idx++) {
         			console.log(result[idx]);
         			sms(result[idx], chatId, ip);
        		}
@@ -71,6 +73,7 @@ router.post("/", function(req, res, next) {
             } else {
               db.update({state: true}, {where: {userId: userId, ip: ip}}).then(function(user) {
                 let message = "Вы включили ежедневную рассылку."+commandMessage(user);
+                sms(message, chatId, ip);
               })
             }
           })
