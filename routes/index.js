@@ -59,7 +59,8 @@ router.post("/", function(req, res, next) {
           parse.getJokes(function(result) {
           	async.forEachOf(result, function(joke, idx, callback) {
               if(idx == 10) {
-                return callback();
+                console.log(idx);
+                return callback("stop");
               }
               sms(joke, chatId, ip, function() {
                 callback();
