@@ -61,6 +61,7 @@ router.post("/", function(req, res, next) {
           	async.whilst(function() {return idx < 10}, function(callback) {
               sms(result[idx], chatId, ip, function() {
                 callback(null, idx);
+                idx++;
               });
             }, function(err, idx) {
               sms("Хотите ли еще получить свежий анекдот?"+commandMessage(user), chatId, ip);
