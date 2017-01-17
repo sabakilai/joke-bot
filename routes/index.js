@@ -4,6 +4,7 @@ var db = require("../data/db.js");
 var sms = require("../models/sms.js");
 var newChat = require("../models/newchat.js");
 var parse = require("../models/parse.js");
+var async = require('async');
 var router = express.Router();
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -14,7 +15,7 @@ router.post("/", function(req, res, next) {
   var ip = req.connection.remoteAddress;
     var event = req.body.event;
     var commandMessage = function(user) {
-      return " Введите нужную цифру:\n\uE21Cполучить случайный анекдот.\n\uE21Dполучить 20 случайных анекдотов.\n\uE21E"+(user.state ? "Отключить" : "Включить")+" ежедневную рассылку.";
+      return " Введите нужную цифру:\n\uE21Cполучить случайный анекдот.\n\uE21Dполучить 10 случайных анекдотов.\n\uE21E"+(user.state ? "Отключить" : "Включить")+" ежедневную рассылку.";
     }
     if(event == "user/unfollow") {
     	let userId = req.body.data.id;
@@ -56,10 +57,13 @@ router.post("/", function(req, res, next) {
         }
         else if(content == "2") {
             	parse.getJokes(function(result) {
-              	for(var idx = 0; idx<10; idx++) {
-        			console.log(result[idx]);
-        			sms(result[idx], chatId, ip);
-       		}
+              	async.each(result, 10, function(joke, callback) {
+                  sms(joke, chatId, ip, function() {
+                    callback();
+                  });
+                }, function(err) {
+                  sms("Хотите ли еще получить свежий анекдот?"+commandMessage(user), chatId, ip);
+                })
          })
         }
         else if(content == "3") {
