@@ -58,10 +58,10 @@ router.post("/", function(req, res, next) {
         else if(content == "2") {
           parse.getJokes(function(result) {
           	async.times(10, function(idx, callback) {
-              sms(result[idx], chatId, ip, function(err) {
-                next(err);
+              sms(result[idx], chatId, ip, function() {
+                next();
               });
-            }, function(err) {
+            }, function() {
               sms("Хотите ли еще получить свежий анекдот?"+commandMessage(user), chatId, ip);
             })
           })
