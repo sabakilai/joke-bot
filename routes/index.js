@@ -59,7 +59,7 @@ router.post("/", function(req, res, next) {
           var idx = 0;
           parse.getJokes(function(result) {
           	async.each(result, function(joke, callback) {
-              sms(result[idx], chatId, ip, function() {
+              sms(joke, chatId, ip, function() {
                 callback();
               });
             }, function() {
