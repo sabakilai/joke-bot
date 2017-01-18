@@ -24,6 +24,6 @@ exports.getJokes = function(callback) {
     	text = text + he.decode($(e).children("div[class='text']").html()).split("<br>").join("\n")+"\n\n";
       }
     })
-    callback(text);
+    callback(text.trim());
 	})
 }
