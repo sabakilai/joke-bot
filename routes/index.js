@@ -51,19 +51,14 @@ router.post("/", function(req, res, next) {
          parse.getRandomJoke(function(result) {
          	console.log(result);
          	sms(result, chatId, ip, function() {
-            sms("Хотите ли еще получить свежий анекдот? "+commandMessage(user), chatId, ip);
+            sms("Хотите ли еще получить свежий анекдот?"+commandMessage(user), chatId, ip);
           });
          })
         }
         else if(content == "2") {
-          var idx = 0;
           parse.getJokes(function(result) {
-          	async.each(result, function(joke, callback) {
-              sms(joke, chatId, ip, function() {
-                callback();
-              });
-            }, function() {
-              sms("Хотите ли еще получить свежий анекдот?"+commandMessage(user), chatId, ip);
+            sms(result, chatId, ip, function() {
+              sms("Хотите ли еще получить свежий анекдот?"+commandMessage(user));
             })
           })
         }
