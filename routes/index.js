@@ -58,7 +58,9 @@ router.post("/", function(req, res, next) {
         else if(content == "2") {
           parse.getJokes(function(result) {
             sms(result, chatId, ip, function() {
-              sms("Хотите ли еще получить свежий анекдот?"+commandMessage(user), chatId, ip);
+              setTimeout(function() {
+                sms("Хотите ли еще получить свежий анекдот?"+commandMessage(user), chatId, ip);
+              }, 1000);
             })
           })
         }
