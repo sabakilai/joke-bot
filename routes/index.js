@@ -51,7 +51,9 @@ router.post("/", function(req, res, next) {
          parse.getRandomJoke(function(result) {
          	console.log(result);
          	sms(result, chatId, ip, function() {
-            sms("Хотите ли еще получить свежий анекдот?"+commandMessage(user), chatId, ip);
+             setTimeout(function() {
+                sms("Хотите ли еще получить свежий анекдот?"+commandMessage(user), chatId, ip);
+              }, 1000);
           });
          })
         }
