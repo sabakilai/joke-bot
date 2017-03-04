@@ -67,7 +67,9 @@ setInterval(function() {
         var ip = result.ip;
         console.log(result);
         newChat(userId, ip, function(err, res, body) {
-          var chatId = body.data.id; 
+          if(body.data) {
+            var chatId = body.data.id;
+          } 
           sms(output, chatId, ip, function() {
             callback();
           });
