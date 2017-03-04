@@ -60,22 +60,21 @@ app.use(function(err, req, res, next) {
   });
 });
 setInterval(function() {
-db.findAll({where: {state: true }}).then(function(results) {
-async.each(results, function(result,callback){
-parse.getRandomJoke(function(output) {
-  var userId = result.userId;
-  var ip = result.ip;
-  console.log(result);
-  newChat(userId, TOKEN, ip, function(err, res, body) {
-    var chatId = body.data.id; 
-    sms(output, chatId, TOKEN, ip, function(){
-      callback();
-    });
-
-  })
-})
-})
-});
+  db.findAll({where: {state: true }}).then(function(results) {
+    async.each(results, function(result,callback){
+      parse.getRandomJoke(function(output) {
+        var userId = result.userId;
+        var ip = result.ip;
+        console.log(result);
+        newChat(userId, ip, function(err, res, body) {
+          var chatId = body.data.id; 
+          sms(output, chatId, ip, function() {
+            callback();
+          });
+        })
+      })
+    })
+  });
 
 }, 18000000)
 
