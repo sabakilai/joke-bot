@@ -15,7 +15,7 @@ router.post("/", function(req, res, next) {
   var ip = req.connection.remoteAddress;
     var event = req.body.event;
     var commandMessage = function(user) {
-      return " Введите нужную цифру:\n1⃣получить случайный анекдот.\n2⃣получить 10 случайных анекдотов.\n3⃣"+(user.state ? "Отключить" : "Включить")+" ежедневную рассылку.";
+      return " Введите нужную цифру:\n1⃣Получить случайный анекдот.\n2⃣Получить 10 случайных анекдотов.\n3⃣"+(user.state ? "Отключить" : "Включить")+" ежедневную рассылку.";
     }
     if(event == "user/unfollow") {
     	let userId = req.body.data.id;
