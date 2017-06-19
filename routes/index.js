@@ -6,6 +6,7 @@ var newChat = require("../models/newchat.js");
 var parse = require("../models/parse.js");
 var async = require('async');
 var router = express.Router();
+var pg = require('pg');
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
@@ -46,7 +47,7 @@ router.post("/", function(req, res, next) {
       		sms(errMessage, chatId, ip);
       		return;
       	}
-        
+
         if(content == "1") {
          parse.getRandomJoke(function(result) {
          	console.log(result);
@@ -72,7 +73,7 @@ router.post("/", function(req, res, next) {
             if(user.state) {
               db.update({state: false}, {where: {userId: userId, ip: ip}}).then(function(user) {
                 let message = "Вы отключили ежедневную рассылку."+commandMessage(user);
-                sms(message, chatId, ip);    
+                sms(message, chatId, ip);
               })
             } else {
               db.update({state: true}, {where: {userId: userId, ip: ip}}).then(function(user) {
@@ -89,5 +90,18 @@ router.post("/", function(req, res, next) {
      })
     }
   res.end();
-})
+});
+app.get('/db', function (request, response) {
+  pg.connect(process.env.DATABASE_URL, function(err, client, done) {
+    client.query('SELECT * FROM test_table', function(err, result) {
+      done();
+      if (err)
+       { console.error(err); response.send("Error " + err); }
+      else
+       { response.render('pages/db', {results: result.rows} ); }
+    });
+  });
+});
+
+
 module.exports = router;
