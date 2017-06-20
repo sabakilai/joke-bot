@@ -1,6 +1,6 @@
 var Sequelize = require("sequelize");
-var sequelize = new Sequelize("turtle_db", "mbrcienx", "mBZL8DgepbOWiPn_JXWEElF97g2ixtDT", {
-	host: "fizzy-cherry.db.elephantsql.com",
+var sequelize = new Sequelize("d7roeu94oi5bej", "ktfrjofakzcjyr", "7de518a2dbe842b344f3bad6235e07a8bc1459d9fc7e1afacfdc0f7a397fea1c", {
+	host: "ec2-107-20-186-238.compute-1.amazonaws.com",
 	dialect: "postgres"
 });
 
