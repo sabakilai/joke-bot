@@ -19,18 +19,18 @@ router.post("/", function(req, res, next) {
       return " Введите нужную цифру:\n1⃣Получить случайный анекдот.\n2⃣Получить 10 случайных анекдотов.\n3⃣"+(user.state ? "Отключить" : "Включить")+" ежедневную рассылку.";
     }
     if(event == "user/unfollow") {
-    	let userId = req.body.data.id;
+    	var userId = req.body.data.id;
     	db.destroy({where:{userId: userId, ip: ip}}).then(function(err) {
         console.log("db destroyed");
       });
     }
     if(event == "user/follow") {
-      let userId = req.body.data.id;
+      var userId = req.body.data.id;
       db.create({userId: userId, ip: ip}).then(function(user) {
         console.log("user follows");
         newChat(userId, ip, function(err, res, body) {
-          let chatId = body.data.id;
-          let message = "Здравствуйте!Я буду присылать вам самые свежие анекдоты." + commandMessage(user);
+          var chatId = body.data.id;
+          var message = "Здравствуйте!Я буду присылать вам самые свежие анекдоты." + commandMessage(user);
           sms(message, chatId, ip);
         })
       });
@@ -72,12 +72,12 @@ router.post("/", function(req, res, next) {
           .then(function(user) {
             if(user.state) {
               db.update({state: false}, {where: {userId: userId, ip: ip}}).then(function(user) {
-                let message = "Вы отключили ежедневную рассылку."+commandMessage(user);
+                var message = "Вы отключили ежедневную рассылку."+commandMessage(user);
                 sms(message, chatId, ip);
               })
             } else {
               db.update({state: true}, {where: {userId: userId, ip: ip}}).then(function(user) {
-                let message = "Вы включили ежедневную рассылку."+commandMessage(user);
+                var message = "Вы включили ежедневную рассылку."+commandMessage(user);
                 sms(message, chatId, ip);
               })
             }
@@ -91,7 +91,7 @@ router.post("/", function(req, res, next) {
     }
   res.end();
 });
-app.get('/db', function (request, response) {
+router.get('/db', function (request, response) {
   pg.connect(process.env.DATABASE_URL, function(err, client, done) {
     client.query('SELECT * FROM test_table', function(err, result) {
       done();
