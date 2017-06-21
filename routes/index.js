@@ -43,7 +43,7 @@ router.post("/", function(req, res, next) {
       var userId = req.body.data.sender_id;
       console.log('user_id : ' +userId);
       console.log('IP : ' +ip);
-      db.find({where: {userId: userId, ip: ip}})
+      db.find({where: {userId: userId}})
       .then(function(user) {
         var errMessage = "Некорректный ввод." + commandMessage(user);
       	var content = req.body.data.content;
