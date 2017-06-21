@@ -15,12 +15,15 @@ router.get('/', function(req, res, next) {
 router.post("/", function(req, res, next) {
   var ip = req.connection.remoteAddress;
     var event = req.body.event;
-    var commandMessage = function(user) {
-      return " Введите нужную цифру:\n1⃣Получить случайный анекдот.\n2⃣Получить 10 случайных анекдотов.\n3⃣"+(user.state ? "Отключить" : "Включить")+" ежедневную рассылку.";
+    var selectRegion = function() {
+      return " Выберите регион в котором вы находитесь, для этого введите нужную цифру:\n1⃣ Чуйская и Таласcкая области.\n2⃣Ошская, Жалалабадская и Баткенская области. \n3⃣Ошская, Жалалабадская и Баткенская области. \n4 Нарынская область. \n5 Иссык-Кульская область. \n6 Нарынская область. \n7 Бишкек. \n8 Ош.";
+    }
+    var sendMeteoMessage = function () {
+      return "Сообщение с метео.кг"
     }
     if(event == "user/unfollow") {
     	var userId = req.body.data.id;
-    	db.destroy({where:{userId: userId, ip: ip}}).then(function(err) {
+    	db.destroy({where:{userId: userId}}).then(function(err) {
         console.log("db destroyed");
       });
     }
@@ -30,16 +33,16 @@ router.post("/", function(req, res, next) {
         console.log("user follows");
         newChat(userId, ip, function(err, res, body) {
           var chatId = body.data.id;
-          var message = "Здравствуйте!Я буду присылать вам самые свежие анекдоты." + commandMessage(user);
+          var message = "Здравствуйте!Я буду присылать вам самые свежие сообщения о погоде." + selectRegion();
           sms(message, chatId, ip);
         })
       });
     }
     if(event == "message/new") {
       var userId = req.body.data.sender_id;
-      db.find({where: {userId: userId, ip: ip}})
+      db.find({where: {userId: userId}})
       .then(function(user) {
-        var errMessage = "Некорректный ввод." + commandMessage(user);
+        var errMessage = "Некорректный ввод." + selectRegion();
       	var content = req.body.data.content;
       	var chatId = req.body.data.chat_id;
       	if(req.body.data.type != 'text/plain') {
@@ -49,14 +52,14 @@ router.post("/", function(req, res, next) {
       	}
 
         if(content == "1") {
-         parse.getRandomJoke(function(result) {
-         	console.log(result);
-         	sms(result, chatId, ip, function() {
-             setTimeout(function() {
-                sms("Хотите ли еще получить свежий анекдот?"+commandMessage(user), chatId, ip);
-              }, 1000);
-          });
-         })
+          //set region to proper
+          db.update({region: '1'}, {where: {userId: userId}}).then(function(user) {
+            var message = "Вы установили рассылку на Чуйскую и Таласcкую области ." +  sendMeteoMessage();
+            sms(message, chatId, ip);
+          })
+          //set last message of region
+
+
         }
         else if(content == "2") {
           parse.getJokes(function(result) {

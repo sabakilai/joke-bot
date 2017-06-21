@@ -1,6 +1,6 @@
 var Sequelize = require("sequelize");
-var sequelize = new Sequelize("d7roeu94oi5bej", "ktfrjofakzcjyr", "7de518a2dbe842b344f3bad6235e07a8bc1459d9fc7e1afacfdc0f7a397fea1c", {
-	host: "ec2-107-20-186-238.compute-1.amazonaws.com",
+var sequelize = new Sequelize("d6mj1dlabcqktm", "yuoxfljtvpjfle", "90b156183131cbec93fcea0aa1d1d91fd7589c70f527ac7a1fec221e06442b68", {
+	host: "ec2-54-225-71-119.compute-1.amazonaws.com",
 	dialect: "postgres"
 });
 
@@ -15,6 +15,10 @@ var user = sequelize.define("user", {
 	state: {
 		type: Sequelize.BOOLEAN,
 	    defaultValue: true
+	},
+	region: {
+		type: Sequelize.INTEGER,
+	    defaultValue: 7
 	}
 })
 
