@@ -20,12 +20,16 @@ router.post("/", function(req, res, next) {
     }
     if(event == "user/unfollow") {
     	var userId = req.body.data.id;
+    	console.log(userId);
+      console.log(ip);
     	db.destroy({where:{userId: userId, ip: ip}}).then(function(err) {
         console.log("db destroyed");
       });
     }
     if(event == "user/follow") {
       var userId = req.body.data.id;
+      console.log(userId);
+      console.log(ip);
       db.create({userId: userId, ip: ip}).then(function(user) {
         console.log("user follows");
         newChat(userId, ip, function(err, res, body) {
@@ -37,6 +41,8 @@ router.post("/", function(req, res, next) {
     }
     if(event == "message/new") {
       var userId = req.body.data.sender_id;
+      console.log(userId);
+      console.log(ip);
       db.find({where: {userId: userId, ip: ip}})
       .then(function(user) {
         var errMessage = "Некорректный ввод." + commandMessage(user);
