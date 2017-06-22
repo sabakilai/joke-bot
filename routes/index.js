@@ -56,12 +56,20 @@ router.post("/", function(req, res, next) {
         if(content == "1") {
           //set region to proper
             var svodka = function () {
-              return chui.text.first_day + chui.text.second_day;
-                      //+ "\n" +
-                     //chui.second_table.row1.name + " днем: " + chui.second_table.row1.day_temp + " ночью: " + chui.second_table.row1.day_temp + "\n" +
-                     //chui.second_table.row2.name + " днем: " + chui.second_table.row2.day_temp + " ночью: " + chui.second_table.row2.day_temp
+              return chui.text.first_day + chui.text.second_day + "\n" +
+                     chui.second_table.row1.name + " днем: " + chui.second_table.row1.day_temp + " ночью: " + chui.second_table.row1.day_temp + "\n" +
+                     chui.second_table.row2.name + " днем: " + chui.second_table.row2.day_temp + " ночью: " + chui.second_table.row2.day_temp
             }
-            var message = "Вы установили рассылку на Чуйскую и Таласcкую области. Вот последняя сводка по этому региону\n" + svodka();
+            var message = "Вы установили рассылку на Чуйскую и Таласcкую области. Вот последняя сводка по этому региону";
+            sms(message, chatId, ip, function() {
+              setTimeout(function() {
+                sms(svodka(), chatId, ip,function () {
+                  setTimeout(function () {
+                    sms(postscript(),chatId,ip)
+                  },1000)
+                });
+              }, 1000);
+            })
             sms(message, chatId, ip);
 
           //set last message of region
