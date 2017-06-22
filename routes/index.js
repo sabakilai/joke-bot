@@ -59,9 +59,9 @@ router.post("/", function(req, res, next) {
             var svodka = function () {
               return chui.text.first_day + chui.text.second_day + "\n" +
                      chui.second_table.row_1.name +
-                     " днем: " + chui.second_table.row_1.day_temp + " ночью: " + chui.second_table.row_1.day_temp + "\n" +
+                     "\n Днем: " + chui.second_table.row_1.day_temp + " ночью: " + chui.second_table.row_1.day_temp + "\n" +
                      chui.second_table.row_2.name +
-                     " днем: " + chui.second_table.row_2.day_temp + " ночью: " + chui.second_table.row_2.day_temp
+                     "\n Днем: " + chui.second_table.row_2.day_temp + " ночью: " + chui.second_table.row_2.day_temp
             }
             var message = "Вы установили рассылку на Чуйскую и Таласcкую области. Вот последняя сводка по этому региону";
 
