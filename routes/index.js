@@ -56,7 +56,7 @@ router.post("/", function(req, res, next) {
 
         if(content == "1") {
           //set region to proper
-            console.log(chui.second_table);
+            console.log(chui.second_table.row_1.name);
             var svodka = function () {
               return chui.text.first_day + chui.text.second_day ;//+ "\n" +
                      //chui.second_table.row1.name +
@@ -65,7 +65,7 @@ router.post("/", function(req, res, next) {
                      //" днем: " + chui.second_table.row2.day_temp + " ночью: " + chui.second_table.row2.day_temp
             }
             var message = "Вы установили рассылку на Чуйскую и Таласcкую области. Вот последняя сводка по этому региону";
-            console.log(svodka());
+
             sms(message, chatId, ip, function() {
               setTimeout(function() {
                 sms(svodka(), chatId, ip);
