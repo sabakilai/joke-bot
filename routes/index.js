@@ -56,6 +56,7 @@ router.post("/", function(req, res, next) {
 
         if(content == "1") {
           //set region to proper
+            console.log(chui);
             var svodka = function () {
               return chui.text.first_day + chui.text.second_day + "\n" +
                      chui.second_table.row1.name + " днем: " + chui.second_table.row1.day_temp + " ночью: " + chui.second_table.row1.day_temp + "\n" +
