@@ -7,6 +7,8 @@ var parse = require("../models/parse.js");
 var async = require('async');
 var router = express.Router();
 var pg = require('pg');
+var chui = require('../data/meteo/chui');
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
@@ -16,7 +18,7 @@ router.post("/", function(req, res, next) {
   var ip = req.connection.remoteAddress;
     var event = req.body.event;
     var selectRegion = function() {
-      return " Выберите регион в котором вы находитесь, для этого введите нужную цифру:\n1⃣ Чуйская и Таласcкая области.\n2⃣Ошская, Жалалабадская и Баткенская области. \n3⃣Ошская, Жалалабадская и Баткенская области. \n4 Нарынская область. \n5 Иссык-Кульская область. \n6 Нарынская область. \n7 Бишкек. \n8 Ош.";
+      return " Выберите регион в котором вы находитесь, для этого введите нужную цифру:\n1⃣ Чуйская и Таласcкая области.\n2⃣Ошская, Жалалабадская и Баткенская области. \n3 Нарынская область. \n4 Иссык-Кульская область. \n5 Нарынская область. \n6 Бишкек. \n7 Ош.";
     }
     var sendMeteoMessage = function () {
       return "Сообщение с метео.кг"
@@ -53,8 +55,12 @@ router.post("/", function(req, res, next) {
 
         if(content == "1") {
           //set region to proper
-
-            var message = "Вы установили рассылку на Чуйскую и Таласcкую области ." +  sendMeteoMessage();
+            var svodka = function () {
+              return chui.first_day + chui.second_day + "\n" +
+                     chui.second_table.row1.name + " днем: " + chui.second_table.row1.day_temp + " ночью: " + chui.second_table.row1.day_temp + "\n" +
+                     chui.second_table.row2.name + " днем: " + chui.second_table.row2.day_temp + " ночью: " + chui.second_table.row2.day_temp
+            }
+            var message = "Вы установили рассылку на Чуйскую и Таласcкую области. Вот последняя сводка по этому региону\n" + svodka();
             sms(message, chatId, ip);
 
           //set last message of region
