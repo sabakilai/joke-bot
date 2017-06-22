@@ -7,7 +7,7 @@ var parse = require("../models/parse.js");
 var async = require('async');
 var router = express.Router();
 var pg = require('pg');
-var chui = require('../data/meteo/chui');
+var chui = require('../data/meteo/chui.json');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
