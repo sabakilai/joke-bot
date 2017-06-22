@@ -23,6 +23,7 @@ router.post("/", function(req, res, next) {
     var sendMeteoMessage = function () {
       return "Сообщение с метео.кг"
     }
+
     if(event == "user/unfollow") {
     	var userId = req.body.data.id;
     	db.destroy({where:{userId: userId}}).then(function(err) {
@@ -61,16 +62,12 @@ router.post("/", function(req, res, next) {
                      chui.second_table.row2.name + " днем: " + chui.second_table.row2.day_temp + " ночью: " + chui.second_table.row2.day_temp
             }
             var message = "Вы установили рассылку на Чуйскую и Таласcкую области. Вот последняя сводка по этому региону";
+            console.log(svodka());
             sms(message, chatId, ip, function() {
               setTimeout(function() {
-                sms(svodka(), chatId, ip,function () {
-                  setTimeout(function () {
-                    sms(postscript(),chatId,ip)
-                  },1000)
-                });
+                sms(svodka(), chatId, ip);
               }, 1000);
             })
-            sms(message, chatId, ip);
 
           //set last message of region
 
