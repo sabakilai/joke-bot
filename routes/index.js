@@ -53,56 +53,63 @@ router.post("/", function(req, res, next) {
       		sms(errMessage, chatId, ip);
       		return;
       	}
-
-        if(content == "1") {
-          //set region to proper
+        if (user.state){
+          if(content == "1") {
             var svodka = function () {
               return chui.text.first_day + chui.text.second_day + "\n" +
                      chui.second_table.row_1.name +
-                     "\n Днем: " + chui.second_table.row_1.day_temp + " ночью: " + chui.second_table.row_1.day_temp + "\n" +
+                     "\n Днем: " + chui.second_table.row_1.day_temp + " Ночью: " + chui.second_table.row_1.day_temp + "\n" +
                      chui.second_table.row_2.name +
-                     "\n Днем: " + chui.second_table.row_2.day_temp + " ночью: " + chui.second_table.row_2.day_temp
+                     "\n Днем: " + chui.second_table.row_2.day_temp + " Ночью: " + chui.second_table.row_2.day_temp
             }
             var message = "Вы установили рассылку на Чуйскую и Таласcкую области. Вот последняя сводка по этому региону";
 
-            sms(message, chatId, ip, function() {
-              setTimeout(function() {
-                sms(svodka(), chatId, ip);
-              }, 1000);
-            })
-
-          //set last message of region
-
-
-        }
-        else if(content == "2") {
-          parse.getJokes(function(result) {
-            sms(result, chatId, ip, function() {
-              setTimeout(function() {
-                sms("Хотите ли еще получить свежий анекдот?"+commandMessage(user), chatId, ip);
-              }, 1000);
-            })
-          })
-        }
-        else if(content == "3") {
-          db.find({where: {userId: userId, ip: ip}})
-          .then(function(user) {
-            if(user.state) {
-              db.update({state: false}, {where: {userId: userId, ip: ip}}).then(function(user) {
-                var message = "Вы отключили ежедневную рассылку."+commandMessage(user);
-                sms(message, chatId, ip);
+            db.update({region: 1, state:false}, {where: {userId: userId}}).then(function(user) {
+              sms(message, chatId, ip, function() {
+                setTimeout(function() {
+                  sms(svodka(), chatId, ip);
+                }, 1000);
               })
-            } else {
-              db.update({state: true}, {where: {userId: userId, ip: ip}}).then(function(user) {
-                var message = "Вы включили ежедневную рассылку."+commandMessage(user);
-                sms(message, chatId, ip);
+            })
+          }
+          else if(content == "2") {
+            parse.getJokes(function(result) {
+              sms(result, chatId, ip, function() {
+                setTimeout(function() {
+                  sms("Хотите ли еще получить свежий анекдот?"+commandMessage(user), chatId, ip);
+                }, 1000);
               })
-            }
-          })
-        }
-        else {
-          console.log(errMessage);
-      		sms(errMessage, chatId, ip);
+            })
+          }
+          else if(content == "3") {
+            db.find({where: {userId: userId, ip: ip}})
+            .then(function(user) {
+              if(user.state) {
+                db.update({state: false}, {where: {userId: userId, ip: ip}}).then(function(user) {
+                  var message = "Вы отключили ежедневную рассылку."+commandMessage(user);
+                  sms(message, chatId, ip);
+                })
+              } else {
+                db.update({state: true}, {where: {userId: userId, ip: ip}}).then(function(user) {
+                  var message = "Вы включили ежедневную рассылку."+commandMessage(user);
+                  sms(message, chatId, ip);
+                })
+              }
+            })
+          }
+          else {
+            console.log(errMessage);
+        		sms(errMessage, chatId, ip);
+          }
+        } else {
+          if(content == "Сменить регион"){
+            db.update({state: true}, {where: {userId: userId}}).then(function(user) {
+              sms(selectRegion(), chatId, ip);
+            })
+          } else {
+            console.log(errMessage);
+        		sms(errMessage, chatId, ip);
+          }
         }
      })
     }
