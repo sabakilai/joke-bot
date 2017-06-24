@@ -152,7 +152,6 @@ router.post("/", function(req, res, next) {
           else if(content == "6") {
             var svodka = function () {
               return capitals.text.osh +
-                     "\nПогода \n" +
                      capitals.osh_table.date_1.date + " Днем " + capitals.osh_table.date_1.day_temp + " Ночью " + capitals.osh_table.date_1.night_temp + "\n"
                      capitals.osh_table.date_2.date + " Днем " + capitals.osh_table.date_2.day_temp + " Ночью " + capitals.osh_table.date_2.night_temp + "\n"
                      capitals.osh_table.date_3.date + " Днем " + capitals.osh_table.date_3.day_temp + " Ночью " + capitals.osh_table.date_3.night_temp + "\n"
