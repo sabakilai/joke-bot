@@ -135,9 +135,8 @@ router.post("/", function(req, res, next) {
                      "\nЗаход солнца: " + capitals.first_table.sunset +
                      "\nРадиационный фон : " + capitals.first_table.radiation +
                      "\nПогода \n" +
-                     capitals.bishkek_table.date_1.date + " днем " + capitals.bishkek_table.date_1.day_temp + " ночью " + capitals.bishkek_table.date_1.night_temp + "\n"
-                     capitals.bishkek_table.date_2.date + " днем " + capitals.bishkek_table.date_2.day_temp + " ночью " + capitals.bishkek_table.date_2.night_temp + "\n"
-                     capitals.bishkek_table.date_3.date + " днем " + capitals.bishkek_table.date_3.day_temp + " ночью " + capitals.bishkek_table.date_3.night_temp + "\n"
+                     capitals.bishkek_table.date_1.date + " Днем " + capitals.bishkek_table.date_1.day_temp + " Ночью " + capitals.bishkek_table.date_1.night_temp + capitals.bishkek_table.date_2.date + " Днем " + capitals.bishkek_table.date_2.day_temp + " Ночью " + capitals.bishkek_table.date_2.night_temp + "\n"
+                     capitals.bishkek_table.date_3.date + " Днем " + capitals.bishkek_table.date_3.day_temp + " Ночью " + capitals.bishkek_table.date_3.night_temp + "\n"
                      (capitals.text.storm.length>0 ? capitals.text.storm : "")
             }
             var message = "Вы установили рассылку на Бишкек. Вот последняя сводка по этому региону";
@@ -154,9 +153,9 @@ router.post("/", function(req, res, next) {
             var svodka = function () {
               return capitals.text.osh +
                      "\nПогода \n" +
-                     capitals.osh_table.date_1.date + " днем " + capitals.osh_table.date_1.day_temp + " ночью " + capitals.osh_table.date_1.night_temp + "\n"
-                     capitals.osh_table.date_2.date + " днем " + capitals.osh_table.date_2.day_temp + " ночью " + capitals.osh_table.date_2.night_temp + "\n"
-                     capitals.osh_table.date_3.date + " днем " + capitals.osh_table.date_3.day_temp + " ночью " + capitals.osh_table.date_3.night_temp + "\n"
+                     capitals.osh_table.date_1.date + " Днем " + capitals.osh_table.date_1.day_temp + " Ночью " + capitals.osh_table.date_1.night_temp + "\n"
+                     capitals.osh_table.date_2.date + " Днем " + capitals.osh_table.date_2.day_temp + " Ночью " + capitals.osh_table.date_2.night_temp + "\n"
+                     capitals.osh_table.date_3.date + " Днем " + capitals.osh_table.date_3.day_temp + " Ночью " + capitals.osh_table.date_3.night_temp + "\n"
                      (capitals.text.storm.length>0 ? capitals.text.storm : "")
 
             }
