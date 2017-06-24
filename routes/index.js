@@ -25,9 +25,7 @@ router.post("/", function(req, res, next) {
     var selectRegion = function() {
       return " Выберите регион в котором вы находитесь, для этого введите нужную цифру:\n1⃣ Чуйская и Таласcкая области.\n2⃣Ошская, Жалалабадская и Баткенская области. \n3 Нарынская область. \n4 Иссык-Кульская область.  \n5 Бишкек. \n6 Ош.";
     }
-    var sendMeteoMessage = function () {
-      return "Сообщение с метео.кг"
-    }
+
 
     if(event == "user/unfollow") {
     	var userId = req.body.data.id;
