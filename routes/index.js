@@ -133,7 +133,7 @@ router.post("/", function(req, res, next) {
               return capitals.text.bishek +
                      "\nВосход солнца: " + capitals.first_table.sunrise +
                      "\nЗаход солнца: " + capitals.first_table.sunset +
-                     "\nРадиационный фон : " + capitals.first_table.radiation + "\n"
+                     "\nРадиационный фон : " + capitals.first_table.radiation +
                      "\nПогода \n" +
                      capitals.bishkek_table.date_1.date + " днем " + capitals.bishkek_table.date_1.day_temp + " ночью " + capitals.bishkek_table.date_1.night_temp + "\n"
                      capitals.bishkek_table.date_2.date + " днем " + capitals.bishkek_table.date_2.day_temp + " ночью " + capitals.bishkek_table.date_2.night_temp + "\n"
