@@ -116,7 +116,7 @@ router.post("/", function(req, res, next) {
               return isyk.text.first_day + isyk.text.second_day + "\n" +
                      isyk.second_table.row_1.name +
                      "\n Днем: " + isyk.second_table.row_1.day_temp + " Ночью: " + isyk.second_table.row_1.day_temp + "\n" +
-                     (isyk.first_table.water.first_date.length()>0 ? "Вода в озере\n" + isyk.first_table.water.first_date + isyk.first_table.water.first_temp + "\n" +isyk.first_table.water.second_date + isyk.first_table.water.second_temp : "")
+                     (isyk.first_table.water.first_date.length>0 ? "Вода в озере\n" + isyk.first_table.water.first_date + isyk.first_table.water.first_temp + "\n" +isyk.first_table.water.second_date + isyk.first_table.water.second_temp : "")
             }
             var message = "Вы установили рассылку на Иссык-Кульская область. Вот последняя сводка по этому региону";
 
@@ -138,7 +138,7 @@ router.post("/", function(req, res, next) {
                      capitals.bishkek_table.date_1.date + " днем " + capitals.bishkek_table.date_1.day_temp + " ночью " + capitals.bishkek_table.date_1.night_temp + "\n"
                      capitals.bishkek_table.date_2.date + " днем " + capitals.bishkek_table.date_2.day_temp + " ночью " + capitals.bishkek_table.date_2.night_temp + "\n"
                      capitals.bishkek_table.date_3.date + " днем " + capitals.bishkek_table.date_3.day_temp + " ночью " + capitals.bishkek_table.date_3.night_temp + "\n"
-                     (capitals.text.storm.length()>0 ? capitals.text.storm : "")
+                     (capitals.text.storm.length>0 ? capitals.text.storm : "")
             }
             var message = "Вы установили рассылку на Бишкек. Вот последняя сводка по этому региону";
 
@@ -157,7 +157,7 @@ router.post("/", function(req, res, next) {
                      capitals.osh_table.date_1.date + " днем " + capitals.osh_table.date_1.day_temp + " ночью " + capitals.osh_table.date_1.night_temp + "\n"
                      capitals.osh_table.date_2.date + " днем " + capitals.osh_table.date_2.day_temp + " ночью " + capitals.osh_table.date_2.night_temp + "\n"
                      capitals.osh_table.date_3.date + " днем " + capitals.osh_table.date_3.day_temp + " ночью " + capitals.osh_table.date_3.night_temp + "\n"
-                     (capitals.text.storm.length()>0 ? capitals.text.storm : "")
+                     (capitals.text.storm.length>0 ? capitals.text.storm : "")
 
             }
             var message = "Вы установили рассылку на Ош. Вот последняя сводка по этому региону";
