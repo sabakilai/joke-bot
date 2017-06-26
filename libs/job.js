@@ -136,7 +136,6 @@ function GetMesMessage() {
         }
         var file_links = data.replace(/[\[\]']+/g, '').split(",")
         if (file_links[0]!=parsed_links[0]){
-
           var url = parsed_links[0].replace(/['"]+/g, '');
           mesparser.WriteMesMessage(url);
           fs.writeFile('./data/mes/links.json', parsed_links, 'utf8', () => {console.log('Added new links file ');});
@@ -184,7 +183,7 @@ function SendDailyMessages() {
         }
         sms(output, chatId, ip, function() {
           setTimeout(function() {
-            if (newMesMessage == 0){
+            if (newMesMessage == 1){
               sms(svodka.svodkaMes(), chatId, ip);
             }
           }, 3000);

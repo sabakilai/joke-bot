@@ -41,7 +41,7 @@ module.exports = {
            capitals.bishkek_table.date_1.date + " Днем " + capitals.bishkek_table.date_1.day_temp + " Ночью " + capitals.bishkek_table.date_1.night_temp + "\n" +
            capitals.bishkek_table.date_2.date + " Днем " + capitals.bishkek_table.date_2.day_temp + " Ночью " + capitals.bishkek_table.date_2.night_temp + "\n" +
            capitals.bishkek_table.date_3.date + " Днем " + capitals.bishkek_table.date_3.day_temp + " Ночью " + capitals.bishkek_table.date_3.night_temp + "\n" +
-           (capitals.text.storm.length>0 ? capitals.text.storm : "")
+           (capitals.text.storm.length>0 ? "Штормовое предупреждение! \n" +capitals.text.storm : "")
   },
   svodkaSouthCapital(){
     return capitals.text.osh +
@@ -49,7 +49,7 @@ module.exports = {
            capitals.osh_table.date_1.date + " Днем " + capitals.osh_table.date_1.day_temp + " Ночью " + capitals.osh_table.date_1.night_temp + "\n"
            + capitals.osh_table.date_2.date + " Днем " + capitals.osh_table.date_2.day_temp + " Ночью " + capitals.osh_table.date_2.night_temp + "\n"
            + capitals.osh_table.date_3.date + " Днем " + capitals.osh_table.date_3.day_temp + " Ночью " + capitals.osh_table.date_3.night_temp + "\n"
-           + (capitals.text.storm.length>0 ? capitals.text.storm : "")
+           + (capitals.text.storm.length>0 ? "Штормовое предупреждение! \n" + capitals.text.storm : "")
   },
   svodkaMes(){
     return mes.text;
