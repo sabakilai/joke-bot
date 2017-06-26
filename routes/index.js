@@ -3,17 +3,9 @@ var express = require('express');
 var db = require("../data/db.js");
 var sms = require("../models/sms.js");
 var newChat = require("../models/newchat.js");
+var parse = require("../models/parse.js");
 var async = require('async');
 var router = express.Router();
-var pg = require('pg');
-var chui = require('../data/meteo/chui.json');
-var osh = require('../data/meteo/osh.json');
-var naryn = require('../data/meteo/naryn.json');
-var isyk = require('../data/meteo/isyk.json');
-var capitals = require('../data/meteo/capitals.json');
-
-
-
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
@@ -22,33 +14,31 @@ router.get('/', function(req, res, next) {
 router.post("/", function(req, res, next) {
   var ip = req.connection.remoteAddress;
     var event = req.body.event;
-    var selectRegion = function() {
-      return " Выберите регион в котором вы находитесь, для этого введите нужную цифру:\n1⃣ Чуйская и Таласcкая области.\n2⃣Ошская, Жалалабадская и Баткенская области. \n3 Нарынская область. \n4 Иссык-Кульская область.  \n5 Бишкек. \n6 Ош.";
+    var commandMessage = function(user) {
+      return " Введите нужную цифру:\n1⃣Получить случайный анекдот.\n2⃣Получить 10 случайных анекдотов.\n3⃣"+(user.state ? "Отключить" : "Включить")+" ежедневную рассылку.";
     }
-
-
     if(event == "user/unfollow") {
-    	var userId = req.body.data.id;
-    	db.destroy({where:{userId: userId}}).then(function(err) {
+    	let userId = req.body.data.id;
+    	db.destroy({where:{userId: userId, ip: ip}}).then(function(err) {
         console.log("db destroyed");
       });
     }
     if(event == "user/follow") {
-      var userId = req.body.data.id;
+      let userId = req.body.data.id;
       db.create({userId: userId, ip: ip}).then(function(user) {
         console.log("user follows");
         newChat(userId, ip, function(err, res, body) {
-          var chatId = body.data.id;
-          var message = "Здравствуйте!Я буду присылать вам самые свежие сообщения о погоде." + selectRegion();
+          let chatId = body.data.id;
+          let message = "Здравствуйте!Я буду присылать вам самые свежие анекдоты." + commandMessage(user);
           sms(message, chatId, ip);
         })
       });
     }
     if(event == "message/new") {
       var userId = req.body.data.sender_id;
-      db.find({where: {userId: userId}})
+      db.find({where: {userId: userId, ip: ip}})
       .then(function(user) {
-        var errMessage = "Некорректный ввод." + selectRegion();
+        var errMessage = "Некорректный ввод." + commandMessage(user);
       	var content = req.body.data.content;
       	var chatId = req.body.data.chat_id;
       	if(req.body.data.type != 'text/plain') {
@@ -56,135 +46,48 @@ router.post("/", function(req, res, next) {
       		sms(errMessage, chatId, ip);
       		return;
       	}
-        if (user.state){
-          if(content == "1") {
-            var svodka = function () {
-              return chui.text.first_day + chui.text.second_day + "\n" +
-                     chui.second_table.row_1.name +
-                     "\n Днем: " + chui.second_table.row_1.day_temp + " Ночью: " + chui.second_table.row_1.day_temp + "\n" +
-                     chui.second_table.row_2.name +
-                     "\n Днем: " + chui.second_table.row_2.day_temp + " Ночью: " + chui.second_table.row_2.day_temp
-            }
-            var message = "Вы установили рассылку на Чуйскую и Таласcкую области. Вот последняя сводка по этому региону";
-
-            db.update({region: 1, state:false}, {where: {userId: userId}}).then(function(user) {
-              sms(message, chatId, ip, function() {
-                setTimeout(function() {
-                  sms(svodka(), chatId, ip);
-                }, 1000);
+        
+        if(content == "1") {
+         parse.getRandomJoke(function(result) {
+         	console.log(result);
+         	sms(result, chatId, ip, function() {
+             setTimeout(function() {
+                sms("Хотите ли еще получить свежий анекдот?"+commandMessage(user), chatId, ip);
+              }, 1000);
+          });
+         })
+        }
+        else if(content == "2") {
+          parse.getJokes(function(result) {
+            sms(result, chatId, ip, function() {
+              setTimeout(function() {
+                sms("Хотите ли еще получить свежий анекдот?"+commandMessage(user), chatId, ip);
+              }, 1000);
+            })
+          })
+        }
+        else if(content == "3") {
+          db.find({where: {userId: userId, ip: ip}})
+          .then(function(user) {
+            if(user.state) {
+              db.update({state: false}, {where: {userId: userId, ip: ip}}).then(function(user) {
+                let message = "Вы отключили ежедневную рассылку."+commandMessage(user);
+                sms(message, chatId, ip);    
               })
-            })
-          }
-          else if(content == "2") {
-            var svodka = function () {
-              return osh.text.first_day + osh.text.second_day + "\n" +
-                     osh.second_table.row_1.name +
-                     "\n Днем: " + osh.second_table.row_1.day_temp + " Ночью: " + osh.second_table.row_1.day_temp + "\n" +
-                     osh.second_table.row_2.name +
-                     "\n Днем: " + osh.second_table.row_2.day_temp + " Ночью: " + osh.second_table.row_2.day_temp
-            }
-            var message = "Вы установили рассылку на Ошскую, Жалалабадскую и Баткенскую области. Вот последняя сводка по этому региону";
-
-            db.update({region: 2, state:false}, {where: {userId: userId}}).then(function(user) {
-              sms(message, chatId, ip, function() {
-                setTimeout(function() {
-                  sms(svodka(), chatId, ip);
-                }, 1000);
+            } else {
+              db.update({state: true}, {where: {userId: userId, ip: ip}}).then(function(user) {
+                let message = "Вы включили ежедневную рассылку."+commandMessage(user);
+                sms(message, chatId, ip);
               })
-            })
-          }
-          else if(content == "3") {
-            var svodka = function () {
-              return naryn.text.first_day + naryn.text.second_day + "\n" +
-                     naryn.second_table.row_1.name +
-                     "\n Днем: " + naryn.second_table.row_1.day_temp + " Ночью: " + naryn.second_table.row_1.day_temp
             }
-            var message = "Вы установили рассылку на Нарынскую область. Вот последняя сводка по этому региону";
-
-            db.update({region: 3, state:false}, {where: {userId: userId}}).then(function(user) {
-              sms(message, chatId, ip, function() {
-                setTimeout(function() {
-                  sms(svodka(), chatId, ip);
-                }, 1000);
-              })
-            })
-          }
-          else if(content == "4") {
-            var svodka = function () {
-              return isyk.text.first_day + isyk.text.second_day + "\n" +
-                     isyk.second_table.row_1.name +
-                     "\n Днем: " + isyk.second_table.row_1.day_temp + " Ночью: " + isyk.second_table.row_1.day_temp + "\n" +
-                     (isyk.first_table.water.first_date.length>0 ? "Вода в озере\n" + isyk.first_table.water.first_date + isyk.first_table.water.first_temp + "\n" +isyk.first_table.water.second_date + isyk.first_table.water.second_temp : "")
-            }
-            var message = "Вы установили рассылку на Иссык-Кульская область. Вот последняя сводка по этому региону";
-
-            db.update({region: 4, state:false}, {where: {userId: userId}}).then(function(user) {
-              sms(message, chatId, ip, function() {
-                setTimeout(function() {
-                  sms(svodka(), chatId, ip);
-                }, 1000);
-              })
-            })
-          }
-          else if(content == "5") {
-            var svodka = function () {
-              return capitals.text.bishek +
-                     "\nВосход солнца: " + capitals.first_table.sunrise +
-                     "\nЗаход солнца: " + capitals.first_table.sunset +
-                     "\nРадиационный фон : " + capitals.first_table.radiation +
-                     "\nПогода \n" +
-                     capitals.bishkek_table.date_1.date + " Днем " + capitals.bishkek_table.date_1.day_temp + " Ночью " + capitals.bishkek_table.date_1.night_temp + capitals.bishkek_table.date_2.date + " Днем " + capitals.bishkek_table.date_2.day_temp + " Ночью " + capitals.bishkek_table.date_2.night_temp + "\n"
-                     capitals.bishkek_table.date_3.date + " Днем " + capitals.bishkek_table.date_3.day_temp + " Ночью " + capitals.bishkek_table.date_3.night_temp + "\n"
-                     (capitals.text.storm.length>0 ? capitals.text.storm : "")
-            }
-            var message = "Вы установили рассылку на Бишкек. Вот последняя сводка по этому региону";
-
-            db.update({region: 5, state:false}, {where: {userId: userId}}).then(function(user) {
-              sms(message, chatId, ip, function() {
-                setTimeout(function() {
-                  sms(svodka(), chatId, ip);
-                }, 1000);
-              })
-            })
-          }
-          else if(content == "6") {
-            var svodka = function () {
-              return capitals.text.osh +
-                     capitals.osh_table.date_1.date + " Днем " + capitals.osh_table.date_1.day_temp + " Ночью " + capitals.osh_table.date_1.night_temp + "\n"
-                     capitals.osh_table.date_2.date + " Днем " + capitals.osh_table.date_2.day_temp + " Ночью " + capitals.osh_table.date_2.night_temp + "\n"
-                     capitals.osh_table.date_3.date + " Днем " + capitals.osh_table.date_3.day_temp + " Ночью " + capitals.osh_table.date_3.night_temp + "\n"
-                     (capitals.text.storm.length>0 ? capitals.text.storm : "")
-
-            }
-            var message = "Вы установили рассылку на Ош. Вот последняя сводка по этому региону";
-
-            db.update({region: 6, state:false}, {where: {userId: userId}}).then(function(user) {
-              sms(message, chatId, ip, function() {
-                setTimeout(function() {
-                  sms(svodka(), chatId, ip);
-                }, 1000);
-              })
-            })
-          }
-          else {
-            console.log(errMessage);
-        		sms(errMessage, chatId, ip);
-          }
-        } else {
-          if(content == "Сменить регион"){
-            db.update({state: true}, {where: {userId: userId}}).then(function(user) {
-              sms(selectRegion(), chatId, ip);
-            })
-          } else {
-            console.log(errMessage);
-        		sms(errMessage, chatId, ip);
-          }
+          })
+        }
+        else {
+          console.log(errMessage);
+      		sms(errMessage, chatId, ip);
         }
      })
     }
   res.end();
-});
-
-
-
+})
 module.exports = router;
