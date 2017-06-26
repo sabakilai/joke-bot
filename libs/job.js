@@ -21,13 +21,10 @@ module.exports = {
     Promise.all(message).then((messages)=>{
       console.log(messages);
       SendDailyMessages();
-    })catch(
-      (err)=>{
-        console.log(err);
-        reject(err);
-      }
-    )
-  }
+    }).catch(
+        (err)=>{console.log(err);}
+      )
+    }
 };
 
 function Chui() {
