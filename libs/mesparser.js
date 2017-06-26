@@ -30,15 +30,16 @@ module.exports = {
         $('.svodka-full p').each(function (i,element) {
           data[i] = $(this).text().replace(/(?:\r\n|\r|\n|\t)/g, "");
         });
-        var output = [];
+        var message = [];
         for (var i = 0; i < data.length; i++) {
           if (data[i] != 'Прогноз погоды ' ){
-            output[i] = data[i];
+            message[i] = data[i];
           }else {
             break;
           }
         }
-        output = output.join(" ");
+        message = message.join(" ");
+        var output = {text:message};
         fs.writeFile('./data/mes/mes.json', output, 'utf8', () => {console.log('Added Mes file ');});
       } else {
         console.log('Error: ' + error );

@@ -52,6 +52,6 @@ module.exports = {
            + (capitals.text.storm.length>0 ? capitals.text.storm : "")
   },
   svodkaMes(){
-    return mes;
+    return mes.text;
   }
 };
