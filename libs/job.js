@@ -5,6 +5,8 @@ var fs = require('fs');
 var db = require('../data/db.js');
 var svodka = require('./svodka');
 var async = require('async')
+var sms = require("./models/sms.js");
+var newChat = require("./models/newchat.js");
 
 module.exports = {
   MainJob(){
