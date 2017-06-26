@@ -157,7 +157,6 @@ function SendDailyMessages() {
       var userId = result.userId;
       var ip = result.ip;
       var region = result.region;
-      console.log(result);
       switch(region) {
           case 1:
               output = svodka.svodkaChui();
