@@ -4,6 +4,7 @@ var osh = require('../data/meteo/osh.json');
 var naryn = require('../data/meteo/naryn.json');
 var isyk = require('../data/meteo/isyk.json');
 var capitals = require('../data/meteo/capitals.json');
+var mes = require('../data/mes/mes.json');
 
 module.exports = {
   svodkaChui() {
@@ -49,5 +50,8 @@ module.exports = {
            + capitals.osh_table.date_2.date + " Днем " + capitals.osh_table.date_2.day_temp + " Ночью " + capitals.osh_table.date_2.night_temp + "\n"
            + capitals.osh_table.date_3.date + " Днем " + capitals.osh_table.date_3.day_temp + " Ночью " + capitals.osh_table.date_3.night_temp + "\n"
            + (capitals.text.storm.length>0 ? capitals.text.storm : "")
+  },
+  svodkaMes(){
+    return mes;
   }
 };

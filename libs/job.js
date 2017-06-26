@@ -7,6 +7,7 @@ var svodka = require('./svodka');
 var async = require('async')
 var sms = require("../models/sms.js");
 var newChat = require("../models/newchat.js");
+var newMesMessage = 0;
 
 module.exports = {
   MainJob(){
@@ -139,7 +140,7 @@ function GetMesMessage() {
           var url = parsed_links[0].replace(/['"]+/g, '');
           mesparser.WriteMesMessage(url);
           fs.writeFile('./data/mes/links.json', parsed_links, 'utf8', () => {console.log('Added new links file ');});
-
+          newMesMessage = 1;
         } else {
           console.log('No new event on mes.kg');
         }
@@ -182,8 +183,12 @@ function SendDailyMessages() {
           var chatId = body.data.id;
         }
         sms(output, chatId, ip, function() {
-          callback();
-        });
+          setTimeout(function() {
+            if (newMesMessage == 0){
+              sms(svodka.svodkaMes(), chatId, ip);
+            }
+          }, 3000);
+        };
       })
     })
   });
