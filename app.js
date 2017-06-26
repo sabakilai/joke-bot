@@ -29,7 +29,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/users', users);
 
-new CronJob('0 */2 * * * *', function() {
+new CronJob('0 */1 * * * *', function() {
   job.MainJob();
 }, null, true, 'America/Los_Angeles');
 

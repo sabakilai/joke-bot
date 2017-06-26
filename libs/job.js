@@ -4,6 +4,7 @@ var mesparser = require('./mesparser');
 var fs = require('fs');
 var db = require('../data/db.js');
 var svodka = require('./svodka');
+var async = require('async')
 
 module.exports = {
   MainJob(){
