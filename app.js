@@ -12,7 +12,6 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var CronJob = require('cron').CronJob;
 var job = require('./libs/job')
-var TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6NDM0LCJwaG9uZSI6IjEyMzQ1Njc4Njc1NDUzNDI0MyIsInBhc3N3b3JkIjoiJDJhJDEwJHV4TnlHSlBuYkJjMUNDSVFLUi9nNWV4UnFNN1c0QUQyR2hIQzRBdWJwN1V5dVlnbDBRRWRPIiwiaXNCb3QiOnRydWUsImNvdW50cnkiOnRydWUsImlhdCI6MTQ4MzU5NTI5N30.ZLZ9BtUwhJqSMJgWc0Ln7iYT7W944BB4RAIIDMVkzg8";
 var app = express();
 
 // view engine setup
@@ -64,25 +63,5 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
-setInterval(function() {
-  db.findAll({where: {state: true }}).then(function(results) {
-    async.each(results, function(result,callback){
-      parse.getRandomJoke(function(output) {
-        var userId = result.userId;
-        var ip = result.ip;
-        console.log(result);
-        newChat(userId, ip, function(err, res, body) {
-          if(body.data) {
-            var chatId = body.data.id;
-          }
-          sms(output, chatId, ip, function() {
-            callback();
-          });
-        })
-      })
-    })
-  });
-
-}, 72000000 + Math.floor(Math.random() * 18000000 ))
 
 module.exports = app;

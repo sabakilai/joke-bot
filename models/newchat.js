@@ -3,15 +3,8 @@ var config = require('../config.js');
 
 module.exports=function(userId, ip, callback)
 {
-  var token;
-  if(ip === "::ffff:77.235.20.133") {
-    url = "http://77.235.20.133:3000/chats/create",
-    token = config.token.staging;
-  }
-  else {
-    url = "https://api.namba1.co/chats/create";
-    token = config.token.production;
-  }
+  var token = config.token.production;
+  var url = "https://api.namba1.co/chats/create";
   var data={
   url: url,
   method:"POST",

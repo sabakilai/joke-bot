@@ -2,15 +2,18 @@
 var meteoparser = require('./meteoparser');
 var mesparser = require('./mesparser');
 var fs = require('fs');
+var db = require('../data/db.js');
+var svodka = require('./svodka');
 
 module.exports = {
   MainJob(){
-    Chui();
-    Osh();
-    Naryn();
-    Isyk();
-    Capitals();
-    GetMesMessage();
+    //Chui();
+    //Osh();
+    //Naryn();
+    //Isyk();
+    //Capitals();
+    //GetMesMessage();
+    SendDailyMessages();
   }
 };
 
@@ -144,6 +147,42 @@ function GetMesMessage() {
   )
 };
 
-function SendMessages() {
-  
+function SendDailyMessages() {
+  db.findAll().then(function(results) {
+    async.each(results, function(result,callback){
+      var output;
+      var userId = result.userId;
+      var ip = result.ip;
+      var region = result.region;
+      console.log(result);
+      switch(region) {
+          case 1:
+              output = svodka.svodkaChui();
+              break;
+          case 2:
+              output = svodka.svodkaOsh();
+              break;
+          case 3:
+              output = svodka.svodkaNaryn();
+              break;
+          case 4:
+              output = svodka.svodkaIsyk();
+              break;
+          case 5:
+              output = svodka.svodkaBishkek();
+              break;
+          case 6:
+              output = svodka.svodkaSouthCapital();
+              break;
+      }
+      newChat(userId, ip, function(err, res, body) {
+        if(body.data) {
+          var chatId = body.data.id;
+        }
+        sms(output, chatId, ip, function() {
+          callback();
+        });
+      })
+    })
+  });
 }
