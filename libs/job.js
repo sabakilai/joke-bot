@@ -188,7 +188,7 @@ function SendDailyMessages() {
               sms(svodka.svodkaMes(), chatId, ip);
             }
           }, 3000);
-        };
+        });
       })
     })
   });
