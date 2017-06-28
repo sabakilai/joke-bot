@@ -8,7 +8,7 @@ var async = require('async')
 var sms = require("../models/sms.js");
 var newChat = require("../models/newchat.js");
 var S3FS = require('s3fs');
-var fsImpl = New S3FS('meteokgbot', {
+var fsImpl = new S3FS('meteokgbot', {
   accessKeyId:'AKIAJDY4WDLQ3RCKZCWA',
   secretAccessKey:'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'
 })
