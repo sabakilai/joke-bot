@@ -18,7 +18,7 @@ router.post("/", function(req, res, next) {
   var ip = req.connection.remoteAddress;
     var event = req.body.event;
     var selectRegion = function() {
-      return " Выберите регион в котором вы находитесь, для этого введите нужную цифру:\n1⃣ Чуйская и Таласcкая области.\n2⃣Ошская, Жалалабадская и Баткенская области. \n3 Нарынская область. \n4 Иссык-Кульская область.  \n5 Бишкек. \n6 Ош.";
+      return " Выберите регион в котором вы находитесь, для этого введите нужную цифру:\n1⃣ Чуйская и Таласcкая области.\n2⃣Ошская, Жалалабадская и Баткенская области. \n3⃣ Нарынская область. \n4⃣ Иссык-Кульская область.  \n5⃣ Бишкек. \n6⃣ Ош.";
     }
     var changeRegion = function () {
       return "Введите 'cменить', чтобы сменить регион "
@@ -145,7 +145,7 @@ router.post("/", function(req, res, next) {
         		sms(errMessage, chatId, ip);
           }
         } else {
-          var errMessage = "Некорректный ввод. " + changeRegion;
+          var errMessage = "Некорректный ввод. " + changeRegion();
           if(content == "Сменить"){
             db.update({state: true}, {where: {userId: userId}}).then(function(user) {
               sms(selectRegion(), chatId, ip);

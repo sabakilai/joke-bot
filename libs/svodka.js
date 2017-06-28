@@ -38,7 +38,7 @@ module.exports = {
            "\nЗаход солнца: " + capitals.first_table.sunset +
            "\nРадиационный фон : " + capitals.first_table.radiation +
            "\nПогода \n" +
-           capitals.bishkek_table.date_1.date + " Днем " + capitals.bishkek_table.date_1.day_temp + " Ночью " + capitals.bishkek_table.date_1.night_temp + "\n" +
+           capitals.bishkek_table.date_1.date + " :sunny: " + capitals.bishkek_table.date_1.day_temp + " Ночью " + capitals.bishkek_table.date_1.night_temp + "\n" +
            capitals.bishkek_table.date_2.date + " Днем " + capitals.bishkek_table.date_2.day_temp + " Ночью " + capitals.bishkek_table.date_2.night_temp + "\n" +
            capitals.bishkek_table.date_3.date + " Днем " + capitals.bishkek_table.date_3.day_temp + " Ночью " + capitals.bishkek_table.date_3.night_temp + "\n" +
            (capitals.text.storm.length>0 ? "Штормовое предупреждение! \n" +capitals.text.storm : "")
