@@ -7,20 +7,26 @@ var svodka = require('./svodka');
 var async = require('async')
 var sms = require("../models/sms.js");
 var newChat = require("../models/newchat.js");
+var S3FS = require('s3fs');
+var fsImpl = New S3FS('meteokgbot', {
+  accessKeyId:'AKIAJDY4WDLQ3RCKZCWA',
+  secretAccessKey:'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'
+})
+
 var newMesMessage = 0;
 
 module.exports = {
   MainJob(){
     let message = [];
     message.push(Chui());
-    message.push(Osh());
-    message.push(Naryn());
-    message.push(Isyk());
-    message.push(Capitals());
+    //message.push(Osh());
+    //message.push(Naryn());
+    //message.push(Isyk());
+    //message.push(Capitals());
 
     Promise.all(message).then((messages)=>{
       console.log(messages);
-      SendDailyMessages();
+      //SendDailyMessages();
     }).catch(
         (err)=>{console.log(err);}
       )
@@ -41,7 +47,7 @@ function Chui() {
         };
         output = JSON.stringify(output);
         var currenttime = new Date().toLocaleString();
-        fs.writeFile('./data/meteo/chui.json', output, 'utf8', () => {resolve('Added Chui file ' + currenttime);});
+        fsImpl.writeFile('chui.json', output,  ()=> {resolve('Added Chui file ' + currenttime);});
       }
     ).catch(
       (err)=>{
