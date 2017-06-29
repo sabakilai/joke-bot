@@ -250,7 +250,7 @@ function GetMesMessage() {
                   }
               });
             } else {
-              console.log('No new event on mes.kg');
+              resolve('No new event on mes.kg');
             }
           }
         });
