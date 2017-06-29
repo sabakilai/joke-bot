@@ -8,7 +8,7 @@ var async = require('async')
 var sms = require("../models/sms.js");
 var newChat = require("../models/newchat.js");
 var AWS = require('aws-sdk');
-AWS.config.loadFromPath('../bucket.json');
+AWS.config.loadFromPath('./bucket.json');
 var s3 = new AWS.S3();
 
 var newMesMessage = 0;
