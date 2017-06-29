@@ -21,7 +21,7 @@ module.exports = {
     message.push(Naryn());
     message.push(Isyk());
     message.push(Capitals());
-    //message.push(GetMesMessage());
+    message.push(GetMesMessage());
 
     Promise.all(message).then((messages)=>{
       console.log(messages);
