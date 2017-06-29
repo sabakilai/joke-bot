@@ -236,11 +236,11 @@ function GetMesMessage() {
             if (file_links[0]!=parsed_links[0]){
               var url = parsed_links[0].replace(/['"]+/g, '');
               mesparser.WriteMesMessage(url);
-              console.log(parsed_links);
+              console.log(parsed_links.toString());
               var params = {
                   Bucket: 'meteokgbot',
                   Key: "links.json",
-                  Body: parsed_links
+                  Body: parsed_links.toString()
               };
               newMesMessage = 1;
               s3.putObject(params, function (perr, pres) {
