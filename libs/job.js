@@ -223,6 +223,10 @@ function GetMesMessage() {
     mesparser.GetLinks().then(
       (parsed_links) => {
         parsed_links = parsed_links.replace(/[\[\]']+/g, '').split(",");
+        var params = {
+            Bucket: 'meteokgbot',
+            Key: "links.json"
+        };
         s3.getObject(params, function(err, data) {
           if (err) {
             console.log(err)
