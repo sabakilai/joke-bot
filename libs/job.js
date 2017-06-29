@@ -236,7 +236,6 @@ function GetMesMessage() {
             if (file_links[0]!=parsed_links[0]){
               var url = parsed_links[0].replace(/['"]+/g, '');
               mesparser.WriteMesMessage(url);
-              console.log(parsed_links.toString());
               var params = {
                   Bucket: 'meteokgbot',
                   Key: "links.json",
@@ -247,7 +246,7 @@ function GetMesMessage() {
                   if (perr) {
                       console.log("Error uploading data: ", perr);
                   } else {
-                      resolve('Added new links file ' + currenttime);
+                      resolve('Added new links file ');
                   }
               });
             } else {
