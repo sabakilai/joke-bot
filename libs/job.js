@@ -232,6 +232,7 @@ function GetMesMessage() {
             console.log(err)
           }
           else {
+            console.log(data);
             var file_links = data.replace(/[\[\]']+/g, '').split(",")
             if (file_links[0]!=parsed_links[0]){
               var url = parsed_links[0].replace(/['"]+/g, '');
