@@ -47,8 +47,8 @@ function Chui() {
         var currenttime = new Date().toLocaleString();
         var params = {
             Bucket: 'meteokgbot',
-            Key: output,
-            Body: "Hello"
+            Key: "chui.json",
+            Body: output
         };
         s3.putObject(params, function (perr, pres) {
             if (perr) {
