@@ -17,10 +17,10 @@ module.exports = {
   MainJob(){
     let message = [];
     message.push(Chui());
-    //message.push(Osh());
-    //message.push(Naryn());
-    //message.push(Isyk());
-    //message.push(Capitals());
+    message.push(Osh());
+    message.push(Naryn());
+    message.push(Isyk());
+    message.push(Capitals());
 
     Promise.all(message).then((messages)=>{
       console.log(messages);
@@ -54,10 +54,9 @@ function Chui() {
             if (perr) {
                 console.log("Error uploading data: ", perr);
             } else {
-                console.log("Successfully uploaded data to myBucket/myKey");
+                resolve('Added Chui file ' + currenttime);
             }
         });
-        //fsImpl.writeFile('chui.json', output,  ()=> {resolve('Added Chui file ' + currenttime);});
       }
     ).catch(
       (err)=>{
@@ -82,7 +81,18 @@ function Osh() {
         };
         output = JSON.stringify(output);
         var currenttime = new Date().toLocaleString();
-        fs.writeFile('./data/meteo/osh.json', output, 'utf8', () => {resolve('Added Osh file ' + currenttime);});
+        var params = {
+            Bucket: 'meteokgbot',
+            Key: "osh.json",
+            Body: output
+        };
+        s3.putObject(params, function (perr, pres) {
+            if (perr) {
+                console.log("Error uploading data: ", perr);
+            } else {
+                resolve('Added Osh file ' + currenttime);
+            }
+        });
       }
     ).catch(
       (err)=>{
@@ -105,7 +115,18 @@ function Naryn() {
         };
         output = JSON.stringify(output);
         var currenttime = new Date().toLocaleString();
-        fs.writeFile('./data/meteo/naryn.json', output, 'utf8', () => {resolve('Added Naryn file ' + currenttime);});
+        var params = {
+            Bucket: 'meteokgbot',
+            Key: "naryn.json",
+            Body: output
+        };
+        s3.putObject(params, function (perr, pres) {
+            if (perr) {
+                console.log("Error uploading data: ", perr);
+            } else {
+                resolve('Added Naryn file ' + currenttime);
+            }
+        });
       }
     ).catch(
       (err)=>{
@@ -132,7 +153,18 @@ function Isyk() {
         };
         output = JSON.stringify(output);
         var currenttime = new Date().toLocaleString();
-        fs.writeFile('./data/meteo/isyk.json', output, 'utf8', () => {resolve('Added Isyk file ' + currenttime);});
+        var params = {
+            Bucket: 'meteokgbot',
+            Key: "isyk.json",
+            Body: output
+        };
+        s3.putObject(params, function (perr, pres) {
+            if (perr) {
+                console.log("Error uploading data: ", perr);
+            } else {
+                resolve('Added Isyk file ' + currenttime);
+            }
+        });
       }
     ).catch(
       (err)=>{
@@ -163,7 +195,18 @@ function Isyk() {
         };
         output = JSON.stringify(output);
         var currenttime = new Date().toLocaleString();
-        fs.writeFile('./data/meteo/capitals.json', output, 'utf8', () => {console.log('Added Capitals file ' + currenttime);});
+        var params = {
+            Bucket: 'meteokgbot',
+            Key: "capitals.json",
+            Body: output
+        };
+        s3.putObject(params, function (perr, pres) {
+            if (perr) {
+                console.log("Error uploading data: ", perr);
+            } else {
+                resolve('Added Capitals file ' + currenttime);
+            }
+        });
       }
     ).catch(
       (err)=>{
@@ -179,18 +222,31 @@ function GetMesMessage() {
     mesparser.GetLinks().then(
       (parsed_links) => {
         parsed_links = parsed_links.replace(/[\[\]']+/g, '').split(",");
-        fs.readFile('./data/mes/links.json', 'utf8', function (err,data) {
+        s3.getObject(params, function(err, data) {
           if (err) {
-            return console.log(err);
+            console.log(err)
           }
-          var file_links = data.replace(/[\[\]']+/g, '').split(",")
-          if (file_links[0]!=parsed_links[0]){
-            var url = parsed_links[0].replace(/['"]+/g, '');
-            mesparser.WriteMesMessage(url);
-            fs.writeFile('./data/mes/links.json', parsed_links, 'utf8', () => {resolve('Added new links file ');});
-            newMesMessage = 1;
-          } else {
-            console.log('No new event on mes.kg');
+          else {
+            var file_links = data.replace(/[\[\]']+/g, '').split(",")
+            if (file_links[0]!=parsed_links[0]){
+              var url = parsed_links[0].replace(/['"]+/g, '');
+              mesparser.WriteMesMessage(url);
+              var params = {
+                  Bucket: 'meteokgbot',
+                  Key: "links.json",
+                  Body: parsed_links
+              };
+              newMesMessage = 1;
+              s3.putObject(params, function (perr, pres) {
+                  if (perr) {
+                      console.log("Error uploading data: ", perr);
+                  } else {
+                      resolve('Added new links file ' + currenttime);
+                  }
+              });
+            } else {
+              console.log('No new event on mes.kg');
+            }
           }
         });
       }

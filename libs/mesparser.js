@@ -2,6 +2,9 @@
 var request = require('request');
 var cheerio = require('cheerio');
 var fs = require('fs');
+var AWS = require('aws-sdk');
+AWS.config.loadFromPath('./bucket.json');
+var s3 = new AWS.S3();
 
 module.exports = {
   GetLinks(){
@@ -40,7 +43,18 @@ module.exports = {
         }
         message = message.join(" ");
         var output = {text:message};
-        fs.writeFile('./data/mes/mes.json', output, 'utf8', () => {console.log('Added Mes file ');});
+        var params = {
+            Bucket: 'meteokgbot',
+            Key: "mes.json",
+            Body: output
+        };
+        s3.putObject(params, function (perr, pres) {
+            if (perr) {
+                console.log("Error uploading data: ", perr);
+            } else {
+                console.log('Added Mes file ');
+            }
+        });
       } else {
         console.log('Error: ' + error );
       }
