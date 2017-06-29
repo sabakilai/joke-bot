@@ -236,6 +236,7 @@ function GetMesMessage() {
             if (file_links[0]!=parsed_links[0]){
               var url = parsed_links[0].replace(/['"]+/g, '');
               mesparser.WriteMesMessage(url);
+              console.log(parsed_links);
               var params = {
                   Bucket: 'meteokgbot',
                   Key: "links.json",
