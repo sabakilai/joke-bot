@@ -7,11 +7,9 @@ var svodka = require('./svodka');
 var async = require('async')
 var sms = require("../models/sms.js");
 var newChat = require("../models/newchat.js");
-var S3FS = require('s3fs');
-var fsImpl = new S3FS('meteokgbot', {
-  accessKeyId:'AKIAJM3VREN2MBK4DSDA',
-  secretAccessKey:'G1cwtjiaUWd6FSuTnakqktzp47jwjTtOKjxaZzRA+m0AkclAPPz'
-})
+var AWS = require('aws-sdk');
+AWS.config.loadFromPath('../bucket.json');
+var s3 = new AWS.S3();
 
 var newMesMessage = 0;
 
@@ -47,7 +45,19 @@ function Chui() {
         };
         output = JSON.stringify(output);
         var currenttime = new Date().toLocaleString();
-        fsImpl.writeFile('chui.json', output,  ()=> {resolve('Added Chui file ' + currenttime);});
+        var params = {
+            Bucket: 'meteokgbot',
+            Key: output,
+            Body: "Hello"
+        };
+        s3.putObject(params, function (perr, pres) {
+            if (perr) {
+                console.log("Error uploading data: ", perr);
+            } else {
+                console.log("Successfully uploaded data to myBucket/myKey");
+            }
+        });
+        //fsImpl.writeFile('chui.json', output,  ()=> {resolve('Added Chui file ' + currenttime);});
       }
     ).catch(
       (err)=>{
