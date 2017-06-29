@@ -9,8 +9,8 @@ var sms = require("../models/sms.js");
 var newChat = require("../models/newchat.js");
 var S3FS = require('s3fs');
 var fsImpl = new S3FS('meteokgbot', {
-  accessKeyId:'AKIAJDY4WDLQ3RCKZCWA',
-  secretAccessKey:'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'
+  accessKeyId:'AKIAJM3VREN2MBK4DSDA',
+  secretAccessKey:'G1cwtjiaUWd6FSuTnakqktzp47jwjTtOKjxaZzRA+m0AkclAPPz'
 })
 
 var newMesMessage = 0;
