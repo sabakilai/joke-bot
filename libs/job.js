@@ -36,6 +36,7 @@ function Chui() {
   return new Promise((resolve ,reject )=>{
     meteoparser.Chui().then(
       (datas) => {
+        console.log(datas);
         var output = {
           text: {first_day:datas[0], second_day:datas[1]},
           first_table: {sunrise:datas[2], sunset:datas[3], radiation:datas[4]},
