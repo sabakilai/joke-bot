@@ -11,6 +11,10 @@ var s3 = new AWS.S3();
 
 module.exports = {
   svodkaChui() {
+    var params = {
+        Bucket: 'meteokgbot',
+        Key: "chui.json"
+    };
     s3.getObject(params, function(err, data) {
       if (err) {
         console.log(err);
