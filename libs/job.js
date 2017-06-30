@@ -29,7 +29,7 @@ module.exports = {
 
 function Chui() {
   return new Promise((resolve ,reject )=>{
-    meteoparser.Chui().then(
+    Promise.all(meteoparser.Chui()).then(
       (datas) => {
         console.log(datas);
         var output = {
