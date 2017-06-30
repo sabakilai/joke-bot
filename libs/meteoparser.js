@@ -18,7 +18,7 @@ module.exports = {
     data.push(p.get(url,'#stranka > table:nth-child(4) > tbody > tr > td:nth-child(2) > div:nth-child(2) > table > tbody > tr:nth-child(3) > td:nth-child(3)' )); //day_temp
     data.push(p.get(url,'#stranka > table:nth-child(4) > tbody > tr > td:nth-child(2) > div:nth-child(2) > table > tbody > tr:nth-child(3) > td:nth-child(2)' )); //night_temp
     console.log(data);
-    return data
+    return Promise.all(data)
   },
 
   Osh() {
