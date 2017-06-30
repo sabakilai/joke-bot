@@ -20,7 +20,7 @@ module.exports = {
 
     Promise.all(message).then((messages)=>{
       console.log(messages);
-      SendDailyMessages();
+      //SendDailyMessages();
     }).catch(
         (err)=>{console.log(err);}
       )

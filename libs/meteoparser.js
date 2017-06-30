@@ -43,14 +43,11 @@ module.exports = {
             }
           }
         };
+        console.log('biach');
         console.log(output);
       }
     ).catch(
       (err) => {
-        res.json({
-          success: false,
-          message: 'Error'
-        });
       }
     );
   },
