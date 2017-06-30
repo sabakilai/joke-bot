@@ -19,6 +19,7 @@ module.exports = {
       if (err) {
         console.log(err);
       } else  {
+        console.log(data.Body.toString());
         var chui = data.Body.toString();
         return chui.text.first_day + chui.text.second_day + "\n" +
                chui.second_table.row_1.name +
