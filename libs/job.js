@@ -2,7 +2,7 @@
 var meteoparser = require('./meteoparser');
 var mesparser = require('./mesparser');
 var fs = require('fs');
-var db = require('../data/db.js');
+//var db = require('../data/db.js');
 var svodka = require('./svodka');
 var async = require('async')
 var sms = require("../models/sms.js");
@@ -166,45 +166,4 @@ function GetMesMessage() {
   })
 };
 
-function SendDailyMessages() {
-  db.findAll().then(function(results) {
-    async.each(results, function(result,callback){
-      var output;
-      var userId = result.userId;
-      var ip = result.ip;
-      var region = result.region;
-      switch(region) {
-          case 1:
-              output = svodka.svodkaChui();
-              break;
-          case 2:
-              output = svodka.svodkaOsh();
-              break;
-          case 3:
-              output = svodka.svodkaNaryn();
-              break;
-          case 4:
-              output = svodka.svodkaIsyk();
-              break;
-          case 5:
-              output = svodka.svodkaBishkek();
-              break;
-          case 6:
-              output = svodka.svodkaSouthCapital();
-              break;
-      }
-      newChat(userId, ip, function(err, res, body) {
-        if(body.data) {
-          var chatId = body.data.id;
-        }
-        sms(output, chatId, ip, function() {
-          setTimeout(function() {
-            if (newMesMessage == 1){
-              sms(svodka.svodkaMes(), chatId, ip);
-            }
-          }, 3000);
-        });
-      })
-    })
-  });
-}
+//
