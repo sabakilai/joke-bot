@@ -11,24 +11,25 @@ var s3 = new AWS.S3();
 
 module.exports = {
   svodkaChui() {
-    var params = {
-        Bucket: 'meteokgbot',
-        Key: "chui.json"
-    };
-    s3.getObject(params, function(err, data) {
-      if (err) {
-        console.log(err);
-        return err;
-      }
-      var chui = JSON.parse(data.Body.toString()) ;
-      var resultat = chui.text.first_day + chui.text.second_day + "\n" +
-             chui.second_table.row_1.name +
-             "\n Днем: " + chui.second_table.row_1.day_temp + " Ночью: " + chui.second_table.row_1.day_temp + "\n" +
-             chui.second_table.row_2.name +
-             "\n Днем: " + chui.second_table.row_2.day_temp + " Ночью: " + chui.second_table.row_2.day_temp;
-      console.log(resultat);
-      return "resultat";
-
+    return new Promise((resolve,reject)=>{
+      var params = {
+          Bucket: 'meteokgbot',
+          Key: "chui.json"
+      };
+      s3.getObject(params, function(err, data) {
+        if (err) {
+          console.log(err);
+          reject(err);
+        }
+        var chui = JSON.parse(data.Body.toString()) ;
+        var resultat = chui.text.first_day + chui.text.second_day + "\n" +
+               chui.second_table.row_1.name +
+               "\n Днем: " + chui.second_table.row_1.day_temp + " Ночью: " + chui.second_table.row_1.day_temp + "\n" +
+               chui.second_table.row_2.name +
+               "\n Днем: " + chui.second_table.row_2.day_temp + " Ночью: " + chui.second_table.row_2.day_temp;
+        console.log(resultat);
+        resolve(resultat);
+      })
     });
 
   },
