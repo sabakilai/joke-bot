@@ -18,7 +18,41 @@ module.exports = {
     data.push(p.get(url,'#stranka > table:nth-child(4) > tbody > tr > td:nth-child(2) > div:nth-child(2) > table > tbody > tr:nth-child(3) > td:nth-child(3)' )); //day_temp
     data.push(p.get(url,'#stranka > table:nth-child(4) > tbody > tr > td:nth-child(2) > div:nth-child(2) > table > tbody > tr:nth-child(3) > td:nth-child(2)' )); //night_temp
 
-    return Promise.all(data);
+    Promise.all(data).then(
+      (datas) => {
+        var output = {
+          text:{
+            first_day:datas[0],
+            second_day:datas[1]
+          },
+          first_table:{
+            sunrise:datas[2],
+            sunset:datas[3],
+            radiation:datas[4]
+          },
+          second_table:{
+            row_1:{
+              name:datas[5],
+              day_temp:datas[6],
+              night_temp:datas[7]
+            },
+            row_2:{
+              name:datas[8],
+              day_temp:datas[9],
+              night_temp:datas[10]
+            }
+          }
+        };
+        console.log(output);
+      }
+    ).catch(
+      (err) => {
+        res.json({
+          success: false,
+          message: 'Error'
+        });
+      }
+    );
   },
 
   Osh() {

@@ -28,25 +28,7 @@ module.exports = {
 };
 
 function Chui() {
-  meteoparser.Chui().then(
-    (datas) => {
-      console.log('---------Chui promise-------------');
-      console.log(datas);
-      var output = {
-        text: {first_day:datas[0], second_day:datas[1]},
-        first_table: {sunrise:datas[2], sunset:datas[3], radiation:datas[4]},
-        second_table: {
-          row_1: {name:datas[5], day_temp:datas[6], night_temp:datas[7]},
-          row_2: {name:datas[8],day_temp:datas[9],night_temp:datas[10]}
-        }
-      };
-      output = JSON.stringify(output);
-      var currenttime = new Date().toLocaleString();
-      fs.writeFile('./data/meteo/chui.json', output, 'utf8', () => {console.log('Added Chui file ' + currenttime);});
-    }
-  ).catch(
-    (err)=>{console.log(err);}
-  )
+  meteoparser.Chui();
 };
 
 
