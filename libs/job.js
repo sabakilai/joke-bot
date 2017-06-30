@@ -2,11 +2,15 @@
 var meteoparser = require('./meteoparser');
 var mesparser = require('./mesparser');
 var fs = require('fs');
-//var db = require('../data/db.js');
+var db = require('../data/db.js');
 var svodka = require('./svodka');
 var async = require('async')
 var sms = require("../models/sms.js");
 var newChat = require("../models/newchat.js");
+var AWS = require('aws-sdk');
+AWS.config.loadFromPath('./bucket.json');
+var s3 = new AWS.S3();
+
 var newMesMessage = 0;
 
 module.exports = {
@@ -15,8 +19,9 @@ module.exports = {
     message.push(Chui());
     //message.push(Osh());
     //message.push(Naryn());
-    //message.push(Isyk());
+  //  message.push(Isyk());
     //message.push(Capitals());
+    //message.push(GetMesMessage());
 
     Promise.all(message).then((messages)=>{
       console.log(messages);
@@ -28,9 +33,31 @@ module.exports = {
 };
 
 function Chui() {
-  meteoparser.Chui();
-};
+  return new Promise((resolve ,reject )=>{
+    meteoparser.Chui().then(
+      (datas) => {
+        console.log(datas);
+        var output = {
+          text: {first_day:datas[0], second_day:datas[1]},
+          first_table: {sunrise:datas[2], sunset:datas[3], radiation:datas[4]},
+          second_table: {
+            row_1: {name:datas[5], day_temp:datas[6], night_temp:datas[7]},
+            row_2: {name:datas[8],day_temp:datas[9],night_temp:datas[10]}
+          }
+        };
+        output = JSON.stringify(output);
+        var currenttime = new Date().toLocaleString();
+        console.log(output);
+      }
+    ).catch(
+      (err)=>{
+        console.log(err);
+        reject(err);
+      }
+    )
+  })
 
+};
 
 function Osh() {
   return new Promise((resolve ,reject )=>{
@@ -45,7 +72,18 @@ function Osh() {
         };
         output = JSON.stringify(output);
         var currenttime = new Date().toLocaleString();
-        fs.writeFile('./data/meteo/osh.json', output, 'utf8', () => {resolve('Added Osh file ' + currenttime);});
+        var params = {
+            Bucket: 'meteokgbot',
+            Key: "osh.json",
+            Body: output
+        };
+        s3.putObject(params, function (perr, pres) {
+            if (perr) {
+                console.log("Error uploading data: ", perr);
+            } else {
+                resolve('Added Osh file ' + currenttime);
+            }
+        });
       }
     ).catch(
       (err)=>{
@@ -68,7 +106,18 @@ function Naryn() {
         };
         output = JSON.stringify(output);
         var currenttime = new Date().toLocaleString();
-        fs.writeFile('./data/meteo/naryn.json', output, 'utf8', () => {resolve('Added Naryn file ' + currenttime);});
+        var params = {
+            Bucket: 'meteokgbot',
+            Key: "naryn.json",
+            Body: output
+        };
+        s3.putObject(params, function (perr, pres) {
+            if (perr) {
+                console.log("Error uploading data: ", perr);
+            } else {
+                resolve('Added Naryn file ' + currenttime);
+            }
+        });
       }
     ).catch(
       (err)=>{
@@ -95,7 +144,18 @@ function Isyk() {
         };
         output = JSON.stringify(output);
         var currenttime = new Date().toLocaleString();
-        fs.writeFile('./data/meteo/isyk.json', output, 'utf8', () => {resolve('Added Isyk file ' + currenttime);});
+        var params = {
+            Bucket: 'meteokgbot',
+            Key: "isyk.json",
+            Body: output
+        };
+        s3.putObject(params, function (perr, pres) {
+            if (perr) {
+                console.log("Error uploading data: ", perr);
+            } else {
+                resolve('Added Isyk file ' + currenttime);
+            }
+        });
       }
     ).catch(
       (err)=>{
@@ -126,7 +186,18 @@ function Isyk() {
         };
         output = JSON.stringify(output);
         var currenttime = new Date().toLocaleString();
-        fs.writeFile('./data/meteo/capitals.json', output, 'utf8', () => {console.log('Added Capitals file ' + currenttime);});
+        var params = {
+            Bucket: 'meteokgbot',
+            Key: "capitals.json",
+            Body: output
+        };
+        s3.putObject(params, function (perr, pres) {
+            if (perr) {
+                console.log("Error uploading data: ", perr);
+            } else {
+                resolve('Added Capitals file ' + currenttime);
+            }
+        });
       }
     ).catch(
       (err)=>{
@@ -142,18 +213,35 @@ function GetMesMessage() {
     mesparser.GetLinks().then(
       (parsed_links) => {
         parsed_links = parsed_links.replace(/[\[\]']+/g, '').split(",");
-        fs.readFile('./data/mes/links.json', 'utf8', function (err,data) {
+        var params = {
+            Bucket: 'meteokgbot',
+            Key: "links.json"
+        };
+        s3.getObject(params, function(err, data) {
           if (err) {
-            return console.log(err);
+            console.log(err)
           }
-          var file_links = data.replace(/[\[\]']+/g, '').split(",")
-          if (file_links[0]!=parsed_links[0]){
-            var url = parsed_links[0].replace(/['"]+/g, '');
-            mesparser.WriteMesMessage(url);
-            fs.writeFile('./data/mes/links.json', parsed_links, 'utf8', () => {resolve('Added new links file ');});
-            newMesMessage = 1;
-          } else {
-            console.log('No new event on mes.kg');
+          else {
+            var file_links = data.Body.toString().replace(/[\[\]']+/g, '').split(",")
+            if (file_links[0]!=parsed_links[0]){
+              var url = parsed_links[0].replace(/['"]+/g, '');
+              mesparser.WriteMesMessage(url);
+              var params = {
+                  Bucket: 'meteokgbot',
+                  Key: "links.json",
+                  Body: parsed_links.toString()
+              };
+              newMesMessage = 1;
+              s3.putObject(params, function (perr, pres) {
+                  if (perr) {
+                      console.log("Error uploading data: ", perr);
+                  } else {
+                      resolve('Added new links file ');
+                  }
+              });
+            } else {
+              resolve('No new event on mes.kg');
+            }
           }
         });
       }
@@ -166,4 +254,45 @@ function GetMesMessage() {
   })
 };
 
-//
+function SendDailyMessages() {
+  db.findAll().then(function(results) {
+    async.each(results, function(result,callback){
+      var output;
+      var userId = result.userId;
+      var ip = result.ip;
+      var region = result.region;
+      switch(region) {
+          case 1:
+              output = svodka.svodkaChui();
+              break;
+          case 2:
+              output = svodka.svodkaOsh();
+              break;
+          case 3:
+              output = svodka.svodkaNaryn();
+              break;
+          case 4:
+              output = svodka.svodkaIsyk();
+              break;
+          case 5:
+              output = svodka.svodkaBishkek();
+              break;
+          case 6:
+              output = svodka.svodkaSouthCapital();
+              break;
+      }
+      newChat(userId, ip, function(err, res, body) {
+        if(body.data) {
+          var chatId = body.data.id;
+        }
+        sms(output, chatId, ip, function() {
+          setTimeout(function() {
+            if (newMesMessage == 1){
+              sms(svodka.svodkaMes(), chatId, ip);
+            }
+          }, 3000);
+        });
+      })
+    })
+  });
+}
