@@ -32,7 +32,7 @@ module.exports = {
              chui.second_table.row_2.name +
              "\n Днем: " + chui.second_table.row_2.day_temp + " Ночью: " + chui.second_table.row_2.day_temp;
       console.log(resultat);
-      return resultat;
+      return "resultat";
 
     });
 
