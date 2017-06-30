@@ -36,7 +36,6 @@ function Chui() {
   return new Promise((resolve ,reject )=>{
     meteoparser.Chui().then(
       (datas) => {
-        console.log(datas);
         var output = {
           text: {first_day:datas[0], second_day:datas[1]},
           first_table: {sunrise:datas[2], sunset:datas[3], radiation:datas[4]},
@@ -47,7 +46,18 @@ function Chui() {
         };
         output = JSON.stringify(output);
         var currenttime = new Date().toLocaleString();
-        console.log(output);
+        var params = {
+            Bucket: 'meteokgbot',
+            Key: "chui.json",
+            Body: output
+        };
+        s3.putObject(params, function (perr, pres) {
+            if (perr) {
+                console.log("Error uploading data: ", perr);
+            } else {
+                resolve('Added Chui file ' + currenttime);
+            }
+        });
       }
     ).catch(
       (err)=>{
