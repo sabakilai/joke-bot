@@ -1,18 +1,29 @@
 "use strict"
-var chui = require('../data/meteo/chui.json');
 var osh = require('../data/meteo/osh.json');
 var naryn = require('../data/meteo/naryn.json');
 var isyk = require('../data/meteo/isyk.json');
 var capitals = require('../data/meteo/capitals.json');
 var mes = require('../data/mes/mes.json');
+var AWS = require('aws-sdk');
+AWS.config.loadFromPath('./bucket.json');
+var s3 = new AWS.S3();
+
 
 module.exports = {
   svodkaChui() {
-    return chui.text.first_day + chui.text.second_day + "\n" +
-           chui.second_table.row_1.name +
-           "\n Днем: " + chui.second_table.row_1.day_temp + " Ночью: " + chui.second_table.row_1.day_temp + "\n" +
-           chui.second_table.row_2.name +
-           "\n Днем: " + chui.second_table.row_2.day_temp + " Ночью: " + chui.second_table.row_2.day_temp
+    s3.getObject(params, function(err, data) {
+      if (err) {
+        console.log(err, err.stack;
+      } else  {
+        var chui = data.Body.toString();
+        return chui.text.first_day + chui.text.second_day + "\n" +
+               chui.second_table.row_1.name +
+               "\n Днем: " + chui.second_table.row_1.day_temp + " Ночью: " + chui.second_table.row_1.day_temp + "\n" +
+               chui.second_table.row_2.name +
+               "\n Днем: " + chui.second_table.row_2.day_temp + " Ночью: " + chui.second_table.row_2.day_temp;
+      }
+    });
+
   },
   svodkaOsh() {
     return osh.text.first_day + osh.text.second_day + "\n" +
