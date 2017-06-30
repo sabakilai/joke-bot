@@ -58,10 +58,12 @@ router.post("/", function(req, res, next) {
           if(content == "1") {
             var message = "Вы установили рассылку на Чуйскую и Таласcкую области. Вот последняя сводка по этому региону";
             db.update({region: 1, state:false}, {where: {userId: userId}}).then(function(user) {
-              console.log(svodka.svodkaChui());
+
               sms(message, chatId, ip, function() {
                 setTimeout(function() {
-                  sms(svodka.svodkaChui(), chatId, ip,function() {
+                  let result = svodka.svodkaChui();
+                  console.log(result);
+                  sms(result, chatId, ip,function() {
                     setTimeout(function() {
                       sms(changeRegion(), chatId, ip);
                     }, 3000);

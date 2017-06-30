@@ -20,12 +20,7 @@ module.exports = {
         console.log(err);
         return err;
       }
-      console.log(data.Body.toString());
       var chui = JSON.parse(data.Body.toString()) ;
-      console.log('1');
-      //console.log(data.Body.toString().text.first_day);
-      console.log('2');
-      console.log(chui.text.first_day);
       var resultat = chui.text.first_day + chui.text.second_day + "\n" +
              chui.second_table.row_1.name +
              "\n Днем: " + chui.second_table.row_1.day_temp + " Ночью: " + chui.second_table.row_1.day_temp + "\n" +
