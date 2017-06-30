@@ -20,7 +20,7 @@ module.exports = {
         console.log(err);
       } else  {
         console.log(data.Body.toString());
-        var chui = JSON.stringify(data.Body.toString()) ;
+        var chui = JSON.parse(data.Body.toString()) ;
         console.log('1');
         //console.log(data.Body.toString().text.first_day);
         console.log('2');
