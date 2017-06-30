@@ -7,9 +7,9 @@ var svodka = require('./svodka');
 var async = require('async')
 var sms = require("../models/sms.js");
 var newChat = require("../models/newchat.js");
-var AWS = require('aws-sdk');
-AWS.config.loadFromPath('./bucket.json');
-var s3 = new AWS.S3();
+//var AWS = require('aws-sdk');
+//AWS.config.loadFromPath('./bucket.json');
+//var s3 = new AWS.S3();
 
 var newMesMessage = 0;
 
@@ -47,18 +47,7 @@ function Chui() {
         };
         output = JSON.stringify(output);
         var currenttime = new Date().toLocaleString();
-        var params = {
-            Bucket: 'meteokgbot',
-            Key: "chui.json",
-            Body: output
-        };
-        s3.putObject(params, function (perr, pres) {
-            if (perr) {
-                console.log("Error uploading data: ", perr);
-            } else {
-                resolve('Added Chui file ' + currenttime);
-            }
-        });
+        console.log(output);
       }
     ).catch(
       (err)=>{
