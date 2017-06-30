@@ -5,7 +5,7 @@ let p = new Parser();
 module.exports = {
   Chui() {
     var url = 'http://meteo.kg/index.php?reg=chu';
-    var data = [];
+  var data = [];
     data.push(p.get(url,'#txt > p:nth-child(2)' )); // weather text for first day
     data.push(p.get(url,'#txt > p:nth-child(1)' )); // weather text for second day
     data.push(p.get(url,'#txt > table:nth-child(2) > tbody > tr:nth-child(1) > td:nth-child(2)' )); // sunrise
@@ -17,8 +17,8 @@ module.exports = {
     data.push(p.get(url,'#stranka > table:nth-child(4) > tbody > tr > td:nth-child(2) > div:nth-child(2) > table > tbody > tr:nth-child(3) > td:nth-child(1)' )); //Talas
     data.push(p.get(url,'#stranka > table:nth-child(4) > tbody > tr > td:nth-child(2) > div:nth-child(2) > table > tbody > tr:nth-child(3) > td:nth-child(3)' )); //day_temp
     data.push(p.get(url,'#stranka > table:nth-child(4) > tbody > tr > td:nth-child(2) > div:nth-child(2) > table > tbody > tr:nth-child(3) > td:nth-child(2)' )); //night_temp
-    console.log(data);
-    return Promise.all(data)
+
+    return Promise.all(data);
   },
 
   Osh() {
