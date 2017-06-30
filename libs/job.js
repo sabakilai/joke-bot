@@ -28,7 +28,7 @@ module.exports = {
 };
 
 function Chui() {
-  return new Promise((resolve ,reject )=>{
+  //return new Promise((resolve ,reject )=>{
     Promise.all(meteoparser.Chui()).then(
       (datas) => {
         console.log(datas);
@@ -42,7 +42,7 @@ function Chui() {
         };
         output = JSON.stringify(output);
         var currenttime = new Date().toLocaleString();
-        fs.writeFile('./data/meteo/chui.json', output, 'utf8', () => {resolve('Added Chui file ' + currenttime);});
+        fs.writeFile('./data/meteo/chui.json', output, 'utf8', () => {console.log('Added Chui file ' + currenttime);});
       }
     ).catch(
       (err)=>{
@@ -50,7 +50,7 @@ function Chui() {
         reject(err);
       }
     )
-  })
+//  })
 
 };
 
