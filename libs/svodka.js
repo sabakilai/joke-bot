@@ -13,7 +13,7 @@ module.exports = {
   svodkaChui() {
     s3.getObject(params, function(err, data) {
       if (err) {
-        console.log(err, err.stack;
+        console.log(err);
       } else  {
         var chui = data.Body.toString();
         return chui.text.first_day + chui.text.second_day + "\n" +

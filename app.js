@@ -29,7 +29,7 @@ app.use('/users', users);
 new CronJob('0 */1 * * * *', function() {
   //job.MainJob();
 }, null, true, 'America/Los_Angeles');
-job.MainJob();
+
 
 
 // catch 404 and forward to error handler
