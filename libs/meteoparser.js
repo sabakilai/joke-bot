@@ -5,7 +5,7 @@ let p = new Parser();
 module.exports = {
   Chui() {
     var url = 'http://meteo.kg/index.php?reg=chu';
-  var data = [];
+    var data = [];
     data.push(p.get(url,'#txt > p:nth-child(2)' )); // weather text for first day
     data.push(p.get(url,'#txt > p:nth-child(1)' )); // weather text for second day
     data.push(p.get(url,'#txt > table:nth-child(2) > tbody > tr:nth-child(1) > td:nth-child(2)' )); // sunrise

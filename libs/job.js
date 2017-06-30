@@ -30,6 +30,7 @@ module.exports = {
 function Chui() {
   meteoparser.Chui().then(
     (datas) => {
+      console.log('---------Chui promise-------------');
       console.log(datas);
       var output = {
         text: {first_day:datas[0], second_day:datas[1]},
