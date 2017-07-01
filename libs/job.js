@@ -232,6 +232,7 @@ function GetMesMessage() {
             console.log(err)
           }
           else {
+            console.log("newMesMessage before - " + newMesMessage);
             var file_links = data.Body.toString().replace(/[\[\]']+/g, '').split(",")
             if (file_links[0]!=parsed_links[0]){
               var url = parsed_links[0].replace(/['"]+/g, '');
@@ -242,6 +243,7 @@ function GetMesMessage() {
                   Body: parsed_links.toString()
               };
               newMesMessage = 1;
+              console.log("newMesMessage after - " + newMesMessage);
               s3.putObject(params, function (perr, pres) {
                   if (perr) {
                       console.log("Error uploading data: ", perr);
@@ -327,6 +329,7 @@ function SendDailyMessages() {
               });
               break;
       }
+      console.log("newMesMessage proccess - " + newMesMessage);
       newChat(userId, ip, function(err, res, body) {
         if(body.data) {
           var chatId = body.data.id;

@@ -149,7 +149,9 @@ module.exports = {
           console.log(err);
           reject(err);
         }
+
         var resultat = data.Body.toString() ;
+        console.log("resultat - " + resultat );
         resolve(resultat);
       })
     });
