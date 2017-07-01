@@ -17,15 +17,15 @@ module.exports = {
   MainJob(){
     let message = [];
     message.push(Chui());
-    //message.push(Osh());
-    //message.push(Naryn());
-  //  message.push(Isyk());
-    //message.push(Capitals());
-    //message.push(GetMesMessage());
+    message.push(Osh());
+    message.push(Naryn());
+    message.push(Isyk());
+    message.push(Capitals());
+    message.push(GetMesMessage());
 
     Promise.all(message).then((messages)=>{
       console.log(messages);
-      //SendDailyMessages();
+      SendDailyMessages();
     }).catch(
         (err)=>{console.log(err);}
       )
