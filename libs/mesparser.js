@@ -44,7 +44,7 @@ module.exports = {
         message = message.join(" ");
         var output = {text:message};
 
-        console.log("output" + output);
+        console.log("output - " + output);
         var params = {
             Bucket: 'meteokgbot',
             Key: "mes.json",
