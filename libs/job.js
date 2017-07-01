@@ -331,13 +331,7 @@ function SendDailyMessages() {
         if(body.data) {
           var chatId = body.data.id;
         }
-        sms(output, chatId, ip, function() {
-          setTimeout(function() {
-            if (newMesMessage == 1){
-              sms(svodka.svodkaMes(), chatId, ip);
-            }
-          }, 3000);
-        });
+        sms(output, chatId, ip);
       })
     })
   });
