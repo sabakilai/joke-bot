@@ -33,7 +33,6 @@ module.exports = {
         $('.svodka-full p').each(function (i,element) {
           data[i] = $(this).text().replace(/(?:\r\n|\r|\n|\t)/g, "");
         });
-        console.log("datas - " + data);
         var message = [];
         for (var i = 0; i < data.length; i++) {
           if (data[i] != 'Прогноз погоды ' ){
@@ -42,15 +41,11 @@ module.exports = {
             break;
           }
         }
-        console.log("messages - " + message);
         message = message.join(" ");
-        var output = {text:message};
-
-        console.log("output - " + output);
         var params = {
             Bucket: 'meteokgbot',
             Key: "mes.json",
-            Body: output
+            Body: message
         };
         s3.putObject(params, function (perr, pres) {
             if (perr) {

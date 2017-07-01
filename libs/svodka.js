@@ -149,8 +149,7 @@ module.exports = {
           console.log(err);
           reject(err);
         }
-        var mes = JSON.parse(data.Body.toString()) ;
-        var resultat = mes.text;
+        var resultat = data.Body.toString() ;
         resolve(resultat);
       })
     });
