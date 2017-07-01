@@ -58,6 +58,7 @@ module.exports = {
         } else {
           reject(error);
         }
+      })
     })
-  }}
+  }  
 };
