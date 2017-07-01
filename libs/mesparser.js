@@ -33,6 +33,7 @@ module.exports = {
         $('.svodka-full p').each(function (i,element) {
           data[i] = $(this).text().replace(/(?:\r\n|\r|\n|\t)/g, "");
         });
+        console.log("datas - " + data);
         var message = [];
         for (var i = 0; i < data.length; i++) {
           if (data[i] != 'Прогноз погоды ' ){
@@ -41,6 +42,7 @@ module.exports = {
             break;
           }
         }
+        console.log("messages - " + message);
         message = message.join(" ");
         var output = {text:message};
 
