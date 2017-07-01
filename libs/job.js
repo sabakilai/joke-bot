@@ -273,22 +273,58 @@ function SendDailyMessages() {
       var region = result.region;
       switch(region) {
           case 1:
-              output = svodka.svodkaChui();
+              svodka.svodkaChui().then(
+                (result)=>{
+                  output = result;
+                }
+              ).catch((err)=>{
+                console.log(err);
+              });
               break;
           case 2:
-              output = svodka.svodkaOsh();
+              svodka.svodkaOsh().then(
+                (result)=>{
+                  output = result;
+                }
+              ).catch((err)=>{
+                console.log(err);
+              });
               break;
           case 3:
-              output = svodka.svodkaNaryn();
+              svodka.svodkaNaryn().then(
+                (result)=>{
+                  output = result;
+                }
+              ).catch((err)=>{
+                console.log(err);
+              });
               break;
           case 4:
-              output = svodka.svodkaIsyk();
+              svodka.svodkaIsyk().then(
+                (result)=>{
+                  output = result;
+                }
+              ).catch((err)=>{
+                console.log(err);
+              });
               break;
           case 5:
-              output = svodka.svodkaBishkek();
+              svodka.svodkaBishkek().then(
+                (result)=>{
+                  output = result;
+                }
+              ).catch((err)=>{
+                console.log(err);
+              });
               break;
           case 6:
-              output = svodka.svodkaSouthCapital();
+              svodka.svodkaSouthCapital().then(
+                (result)=>{
+                  output = result;
+                }
+              ).catch((err)=>{
+                console.log(err);
+              });
               break;
       }
       newChat(userId, ip, function(err, res, body) {

@@ -82,10 +82,16 @@ router.post("/", function(req, res, next) {
             db.update({region: 2, state:false}, {where: {userId: userId}}).then(function(user) {
               sms(message, chatId, ip, function() {
                 setTimeout(function() {
-                  sms(svodka.svodkaNaryn(), chatId, ip, function() {
-                    setTimeout(function() {
-                      sms(changeRegion(), chatId, ip);
-                    }, 3000);
+                  svodka.svodkaOsh().then(
+                    (result)=>{
+                      sms(result, chatId, ip,function() {
+                        setTimeout(function() {
+                          sms(changeRegion(), chatId, ip);
+                        }, 3000);
+                      });
+                    }
+                  ).catch((err)=>{
+                    console.log(err);
                   });
                 }, 1000);
               })
@@ -96,10 +102,16 @@ router.post("/", function(req, res, next) {
             db.update({region: 3, state:false}, {where: {userId: userId}}).then(function(user) {
               sms(message, chatId, ip, function() {
                 setTimeout(function() {
-                  sms(svodka.svodkaNaryn(), chatId, ip,function() {
-                    setTimeout(function() {
-                      sms(changeRegion(), chatId, ip);
-                    }, 3000);
+                  svodka.svodkaNaryn().then(
+                    (result)=>{
+                      sms(result, chatId, ip,function() {
+                        setTimeout(function() {
+                          sms(changeRegion(), chatId, ip);
+                        }, 3000);
+                      });
+                    }
+                  ).catch((err)=>{
+                    console.log(err);
                   });
                 }, 1000);
               })
@@ -110,10 +122,16 @@ router.post("/", function(req, res, next) {
             db.update({region: 4, state:false}, {where: {userId: userId}}).then(function(user) {
               sms(message, chatId, ip, function() {
                 setTimeout(function() {
-                  sms(svodka.svodkaIsyk(), chatId, ip,function() {
-                    setTimeout(function() {
-                      sms(changeRegion(), chatId, ip);
-                    }, 3000);
+                  svodka.svodkaIsyk().then(
+                    (result)=>{
+                      sms(result, chatId, ip,function() {
+                        setTimeout(function() {
+                          sms(changeRegion(), chatId, ip);
+                        }, 3000);
+                      });
+                    }
+                  ).catch((err)=>{
+                    console.log(err);
                   });
                 }, 1000);
               })
@@ -125,10 +143,16 @@ router.post("/", function(req, res, next) {
             db.update({region: 5, state:false}, {where: {userId: userId}}).then(function(user) {
               sms(message, chatId, ip, function() {
                 setTimeout(function() {
-                  sms(svodka.svodkaBishkek(), chatId, ip,function() {
-                    setTimeout(function() {
-                      sms(changeRegion(), chatId, ip);
-                    }, 3000);
+                  svodka.svodkaBishkek().then(
+                    (result)=>{
+                      sms(result, chatId, ip,function() {
+                        setTimeout(function() {
+                          sms(changeRegion(), chatId, ip);
+                        }, 3000);
+                      });
+                    }
+                  ).catch((err)=>{
+                    console.log(err);
                   });
                 }, 1000);
               })
@@ -139,10 +163,16 @@ router.post("/", function(req, res, next) {
             db.update({region: 6, state:false}, {where: {userId: userId}}).then(function(user) {
               sms(message, chatId, ip, function() {
                 setTimeout(function() {
-                  sms(svodka.svodkaSouthCapital(), chatId, ip,function() {
-                    setTimeout(function() {
-                      sms(changeRegion(), chatId, ip);
-                    }, 3000);
+                  svodka.svodkaSouthCapital().then(
+                    (result)=>{
+                      sms(result, chatId, ip,function() {
+                        setTimeout(function() {
+                          sms(changeRegion(), chatId, ip);
+                        }, 3000);
+                      });
+                    }
+                  ).catch((err)=>{
+                    console.log(err);
                   });
                 }, 1000);
               })
