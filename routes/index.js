@@ -63,8 +63,6 @@ router.post("/", function(req, res, next) {
                 setTimeout(function() {
                   svodka.svodkaChui().then(
                     (result)=>{
-                      console.log('------svodka.svodkaChui()');
-                      console.log(result);
                       sms(result, chatId, ip,function() {
                         setTimeout(function() {
                           sms(changeRegion(), chatId, ip);
