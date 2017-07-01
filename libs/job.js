@@ -329,7 +329,7 @@ function SendDailyMessages() {
               });
               break;
       }
-      console.log("newMesMessage proccess - " + newMesMessage);
+      console.log("newMesMessage proccess  - " + newMesMessage);
       newChat(userId, ip, function(err, res, body) {
         if(body.data) {
           var chatId = body.data.id;
