@@ -43,10 +43,12 @@ module.exports = {
         }
         message = message.join(" ");
         var output = {text:message};
+
+        console.log("output" + output);
         var params = {
             Bucket: 'meteokgbot',
             Key: "mes.json",
-            Body: output.toString()
+            Body: output
         };
         s3.putObject(params, function (perr, pres) {
             if (perr) {
