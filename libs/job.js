@@ -236,21 +236,27 @@ function GetMesMessage() {
             var file_links = data.Body.toString().replace(/[\[\]']+/g, '').split(",")
             if (file_links[0]!=parsed_links[0]){
               var url = parsed_links[0].replace(/['"]+/g, '');
-              mesparser.WriteMesMessage(url);
-              var params = {
-                  Bucket: 'meteokgbot',
-                  Key: "links.json",
-                  Body: parsed_links.toString()
-              };
-              newMesMessage = 1;
-              console.log("newMesMessage after - " + newMesMessage);
-              s3.putObject(params, function (perr, pres) {
-                  if (perr) {
-                      console.log("Error uploading data: ", perr);
-                  } else {
-                      resolve('Added new links file ');
-                  }
-              });
+              let message = [];
+              message.push(mesparser.WriteMesMessage(url));
+              Promise.all(message).then((messages)=>{
+                console.log(messages);
+                var params = {
+                    Bucket: 'meteokgbot',
+                    Key: "links.json",
+                    Body: parsed_links.toString()
+                };
+                newMesMessage = 1;
+                console.log("newMesMessage after - " + newMesMessage);
+                s3.putObject(params, function (perr, pres) {
+                    if (perr) {
+                        console.log("Error uploading data: ", perr);
+                    } else {
+                        resolve('Added new links file ');
+                    }
+                });
+              }).catch(
+                  (err)=>{console.log(err);}
+              )
             } else {
               resolve('No new event on mes.kg');
             }
@@ -337,7 +343,13 @@ function SendDailyMessages() {
         sms(output, chatId, ip, function() {
           setTimeout(function() {
             if (newMesMessage == 1){
-              sms(svodka.svodkaMes(), chatId, ip);
+              svodka.svodkaMes().then(
+                (result)=>{
+                  sms(result, chatId, ip);
+                }
+              ).catch((err)=>{
+                console.log(err);
+              });
             }
           }, 3000);
         });

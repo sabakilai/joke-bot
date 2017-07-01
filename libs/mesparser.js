@@ -26,37 +26,38 @@ module.exports = {
     });
   },
   WriteMesMessage(url){
-    request(url,function (error,response,html) {
-      if (!error && response.statusCode == 200){
-        var $ = cheerio.load(html);
-        var data = [];
-        $('.svodka-full p').each(function (i,element) {
-          data[i] = $(this).text().replace(/(?:\r\n|\r|\n|\t)/g, "");
-        });
-        var message = [];
-        for (var i = 0; i < data.length; i++) {
-          if (data[i] != 'Прогноз погоды ' ){
-            message[i] = data[i];
-          }else {
-            break;
-          }
-        }
-        message = message.join(" ");
-        var params = {
-            Bucket: 'meteokgbot',
-            Key: "mes.json",
-            Body: message
-        };
-        s3.putObject(params, function (perr, pres) {
-            if (perr) {
-                console.log("Error uploading data: ", perr);
-            } else {
-                console.log('Added Mes file ');
+    return new Promise(function(resolve, reject) {
+      request(url,function (error,response,html) {
+        if (!error && response.statusCode == 200){
+          var $ = cheerio.load(html);
+          var data = [];
+          $('.svodka-full p').each(function (i,element) {
+            data[i] = $(this).text().replace(/(?:\r\n|\r|\n|\t)/g, "");
+          });
+          var message = [];
+          for (var i = 0; i < data.length; i++) {
+            if (data[i] != 'Прогноз погоды ' ){
+              message[i] = data[i];
+            }else {
+              break;
             }
-        });
-      } else {
-        console.log('Error: ' + error );
-      }
+          }
+          message = message.join(" ");
+          var params = {
+              Bucket: 'meteokgbot',
+              Key: "mes.json",
+              Body: message
+          };
+          s3.putObject(params, function (perr, pres) {
+              if (perr) {
+                  console.log("Error uploading data: ", perr);
+              } else {
+                  resolve('Added Mes file ');
+              }
+          });
+        } else {
+          reject(error);
+        }
     })
   }
 };
