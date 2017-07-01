@@ -28,10 +28,10 @@ app.use('/users', users);
 
 
 meteokgbot.Chui();
-new CronJob('0 */1 * * * *', function() {
-  //job.MainJob();
-}, null, true, 'America/Los_Angeles');
-job.MainJob()
+new CronJob('00 45 20 * * *', function() {
+  job.MainJob();
+}, null, true, 'Asia/Bishkek');
+
 
 
 // catch 404 and forward to error handler
