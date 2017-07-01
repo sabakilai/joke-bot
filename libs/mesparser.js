@@ -46,7 +46,7 @@ module.exports = {
         var params = {
             Bucket: 'meteokgbot',
             Key: "mes.json",
-            Body: output
+            Body: output.toString()
         };
         s3.putObject(params, function (perr, pres) {
             if (perr) {
