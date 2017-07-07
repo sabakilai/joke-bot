@@ -156,61 +156,71 @@ module.exports = {
     });
   },
   svodkaOne(region){
-    switch(region) {
-        case 1:
-            this.svodkaChui().then(
-              (result)=>{
-                return result;
-              }
-            ).catch((err)=>{
-              console.log(err);
-            });
-            break;
-        case 2:
-            this.svodkaOsh().then(
-              (result)=>{
-                return result;
-              }
-            ).catch((err)=>{
-              console.log(err);
-            });
-            break;
-        case 3:
-            this.svodkaNaryn().then(
-              (result)=>{
-                return result;
-              }
-            ).catch((err)=>{
-              console.log(err);
-            });
-            break;
-        case 4:
-            this.svodkaIsyk().then(
-              (result)=>{
-                return result;
-              }
-            ).catch((err)=>{
-              console.log(err);
-            });
-            break;
-        case 5:
-            this.svodkaBishkek().then(
-              (result)=>{
-                return result;
-              }
-            ).catch((err)=>{
-              console.log(err);
-            });
-            break;
-        case 6:
-            this.svodkaSouthCapital().then(
-              (result)=>{
-                return result;
-              }
-            ).catch((err)=>{
-              console.log(err);
-            });
-            break;
-    }
+    return new Promise((resolve,reject)=>{
+      var output;
+      var error;
+      switch(region) {
+          case 1:
+              this.svodkaChui().then(
+                (result)=>{
+                  output = result;
+                }
+              ).catch((err)=>{
+                error = err;
+              });
+              break;
+          case 2:
+              this.svodkaOsh().then(
+                (result)=>{
+                  output = result;
+                }
+              ).catch((err)=>{
+                error = err;
+              });
+              break;
+          case 3:
+              this.svodkaNaryn().then(
+                (result)=>{
+                  output = result;
+                }
+              ).catch((err)=>{
+                error = err;
+              });
+              break;
+          case 4:
+              this.svodkaIsyk().then(
+                (result)=>{
+                  output = result;
+                }
+              ).catch((err)=>{
+                error = err;
+              });
+              break;
+          case 5:
+              this.svodkaBishkek().then(
+                (result)=>{
+                  output = result;
+                }
+              ).catch((err)=>{
+                error = err;
+              });
+              break;
+          case 6:
+              this.svodkaSouthCapital().then(
+                (result)=>{
+                  output = result;
+                }
+              ).catch((err)=>{
+                error = err;
+              });
+              break;
+      }
+      if (error) {
+        reject(error)
+      }
+      resolve(output);
+
+    })
+
   }
 };

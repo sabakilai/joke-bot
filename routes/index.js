@@ -199,11 +199,13 @@ router.post("/", function(req, res, next) {
           else if (content == "Последнее") {
             var output;
             console.log(user.region);
-            sms(svodka.svodkaOne(user.region), chatId, ip, function () {
-              setTimeout(function() {
-                sms(changeRegion(user), chatId, ip);
-              }, 3000);
-            });
+            svodka.svodkaOne(user.region).then((result)=>{
+              sms(result, chatId, ip, function () {
+                setTimeout(function() {
+                  sms(changeRegion(user), chatId, ip);
+                }, 3000);
+              });
+            })
           }
           else {
             console.log(errMessage);
