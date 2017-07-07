@@ -166,11 +166,55 @@ module.exports = {
                   resolve(result);
                 }
               ).catch((err)=>{
-                reject (err);
+                reject(err);
+              });
+              break;
+          case 2:
+              this.svodkaOsh().then(
+                (result)=>{
+                  resolve(result);
+                }
+              ).catch((err)=>{
+                reject(err);
+              });
+              break;
+          case 3:
+              this.svodkaNaryn().then(
+                (result)=>{
+                  resolve(result);
+                }
+              ).catch((err)=>{
+                reject(err);
+              });
+              break;
+          case 4:
+              this.svodkaIsyk().then(
+                (result)=>{
+                  resolve(result);
+                }
+              ).catch((err)=>{
+                reject(err);
+              });
+              break;
+          case 5:
+              this.svodkaBishkek().then(
+                (result)=>{
+                  resolve(result);
+                }
+              ).catch((err)=>{
+                reject(err);
+              });
+              break;
+          case 6:
+              this.svodkaSouthCapital().then(
+                (result)=>{
+                  resolve(result);
+                }
+              ).catch((err)=>{
+                reject(err);
               });
               break;
       }
-
     })
 
   }
