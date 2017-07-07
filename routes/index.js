@@ -197,12 +197,12 @@ router.post("/", function(req, res, next) {
             if(subscribed) {
              db.update({subscribed: false}, {where: {userId: userId}}).then(function(user) {
                let message = "Вы отключили ежедневную рассылку."+changeRegion(!subscribed);
-               sms(message, chatId, ip, token);
+               sms(message, chatId, ip);
              })
            } else {
              db.update({subscribed: true}, {where: {userId: userId, ip: ip}}).then(function(user) {
                let message = "Вы включили ежедневную рассылку."+changeRegion(!subscribed);
-               sms(message, chatId, ip, token);
+               sms(message, chatId, ip);
              })
            }
           }
