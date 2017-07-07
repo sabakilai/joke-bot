@@ -16,11 +16,11 @@ var newMesMessage = 0;
 module.exports = {
   MainJob(){
     let message = [];
-    //message.push(Chui());
-    //message.push(Osh());
-    //message.push(Naryn());
-    //message.push(Isyk());
-    //message.push(Capitals());
+    message.push(Chui());
+    message.push(Osh());
+    message.push(Naryn());
+    message.push(Isyk());
+    message.push(Capitals());
     message.push(GetMesMessage());
 
     Promise.all(message).then((messages)=>{

@@ -28,7 +28,7 @@ app.use('/users', users);
 
 
 meteokgbot.Chui();
-new CronJob('00 47 20 * * *', function() {
+new CronJob('00 36 10 * * *', function() {
   job.MainJob();
 }, null, true, 'Asia/Bishkek');
 
