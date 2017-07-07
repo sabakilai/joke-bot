@@ -273,10 +273,15 @@ function GetMesMessage() {
 function SendDailyMessages() {
   db.findAll().then(function(results) {
     async.each(results, function(result,callback){
+      var changeRegion = function (subscribed) {
+        return "Введите 'Cменить', чтобы сменить регион.\nВведите 'Подписка', чтобы " +(subscribed ? "отключить" : "включить") + " ежедневную рассылку." +
+                (subscribed ? "" : "\nВведите 'Последнее', чтобы получить последнюю рассылку по Вашему региону.")
+      }
       var output;
       var userId = result.userId;
       var ip = result.ip;
       var region = result.region;
+      var subscribed = result.subscribed;
       svodka.svodkaOne(region).then((output)=>{
         newChat(userId, ip, function(err, res, body) {
           if(body.data) {
@@ -293,6 +298,7 @@ function SendDailyMessages() {
                   console.log(err);
                 });
               }
+              sms(changeRegion(subscribed),chatId,ip);
             }, 3000);
           });
         })
