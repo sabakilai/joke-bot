@@ -28,7 +28,7 @@ app.use('/', routes);
 app.use('/users', users);
 
 
-mes.WriteMesMessage('http://mes.kg/ru/events/full/3510.html');
+
 new CronJob('00 54 10 * * *', function() {
   job.MainJob();
 }, null, true, 'Asia/Bishkek');
