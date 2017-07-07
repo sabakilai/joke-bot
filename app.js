@@ -10,8 +10,8 @@ var users = require('./routes/users');
 var CronJob = require('cron').CronJob;
 var job = require('./libs/job')
 var app = express();
-var meteokgbot = require('./libs/meteoparser');
-var mes = require('./libs/mesparser');
+var http = require("http");
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -65,5 +65,8 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
-
+setInterval(function() {
+    console.log("Dont sleep!");
+    http.get("http://jokebotkg.herokuapp.com");
+}, 300000); // every 5 minutes (300000)
 module.exports = app;

@@ -36,7 +36,6 @@ module.exports = {
           });
           var message = [];
           for (var i = 0; i < data.length; i++) {
-            console.log('data-'+ i + ' = ' + data[i]);
             if ((data[i]=="Все прогнозы") || (data[i]== "Прогноз погоды ")) {
               break;
             } else {
