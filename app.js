@@ -11,6 +11,7 @@ var CronJob = require('cron').CronJob;
 var job = require('./libs/job')
 var app = express();
 var meteokgbot = require('./libs/meteoparser');
+var mes = require('./libs/mesparser');
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -27,7 +28,7 @@ app.use('/', routes);
 app.use('/users', users);
 
 
-
+mes.WriteMesMessage('http://mes.kg/ru/events/full/3510.html');
 new CronJob('00 54 10 * * *', function() {
   job.MainJob();
 }, null, true, 'Asia/Bishkek');
