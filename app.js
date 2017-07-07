@@ -29,7 +29,7 @@ app.use('/users', users);
 
 
 
-new CronJob('00 54 10 * * *', function() {
+new CronJob('00 16 11 * * *', function() {
   job.MainJob();
 }, null, true, 'Asia/Bishkek');
 
