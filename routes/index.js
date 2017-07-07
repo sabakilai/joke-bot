@@ -68,7 +68,7 @@ router.post("/", function(req, res, next) {
                     (result)=>{
                       sms(result, chatId, ip,function() {
                         setTimeout(function() {
-                          sms(changeRegion(user), chatId, ip);
+                          sms(changeRegion(subscribed), chatId, ip);
                         }, 3000);
                       });
                     }
@@ -89,7 +89,7 @@ router.post("/", function(req, res, next) {
                     (result)=>{
                       sms(result, chatId, ip,function() {
                         setTimeout(function() {
-                          sms(changeRegion(user), chatId, ip);
+                          sms(changeRegion(subscribed), chatId, ip);
                         }, 3000);
                       });
                     }
@@ -109,7 +109,7 @@ router.post("/", function(req, res, next) {
                     (result)=>{
                       sms(result, chatId, ip,function() {
                         setTimeout(function() {
-                          sms(changeRegion(user), chatId, ip);
+                          sms(changeRegion(subscribed), chatId, ip);
                         }, 3000);
                       });
                     }
@@ -129,7 +129,7 @@ router.post("/", function(req, res, next) {
                     (result)=>{
                       sms(result, chatId, ip,function() {
                         setTimeout(function() {
-                          sms(changeRegion(user), chatId, ip);
+                          sms(changeRegion(subscribed), chatId, ip);
                         }, 3000);
                       });
                     }
@@ -150,7 +150,7 @@ router.post("/", function(req, res, next) {
                     (result)=>{
                       sms(result, chatId, ip,function() {
                         setTimeout(function() {
-                          sms(changeRegion(user), chatId, ip);
+                          sms(changeRegion(subscribed), chatId, ip);
                         }, 3000);
                       });
                     }
@@ -171,7 +171,7 @@ router.post("/", function(req, res, next) {
                       sms(result, chatId, ip,function() {
                         setTimeout(function() {
                           console.log(subscribed);
-                          sms(changeRegion(user), chatId, ip);
+                          sms(changeRegion(subscribed), chatId, ip);
                         }, 3000);
                       });
                     }
