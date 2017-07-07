@@ -185,7 +185,7 @@ router.post("/", function(req, res, next) {
         		sms(errMessage, chatId, ip);
           }
         } else {
-          var errMessage = "Некорректный ввод. " + changeRegion();
+          var errMessage = "Некорректный ввод. " + changeRegion(user);
           if(content == "Сменить"){
             db.update({state: true}, {where: {userId: userId}}).then(function(user) {
               sms(selectRegion(), chatId, ip);
