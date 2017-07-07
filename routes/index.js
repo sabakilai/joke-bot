@@ -199,62 +199,15 @@ router.post("/", function(req, res, next) {
           else if (content == "Последнее") {
             var output;
             console.log(user.region);
-            switch(user.region) {
-                case 1:
-                    svodka.svodkaChui().then(
-                      (result)=>{
-                        output = result;
-                      }
-                    ).catch((err)=>{
-                      console.log(err);
-                    });
-                    break;
-                case 2:
-                    svodka.svodkaOsh().then(
-                      (result)=>{
-                        output = result;
-                      }
-                    ).catch((err)=>{
-                      console.log(err);
-                    });
-                    break;
-                case 3:
-                    svodka.svodkaNaryn().then(
-                      (result)=>{
-                        output = result;
-                      }
-                    ).catch((err)=>{
-                      console.log(err);
-                    });
-                    break;
-                case 4:
-                    svodka.svodkaIsyk().then(
-                      (result)=>{
-                        output = result;
-                      }
-                    ).catch((err)=>{
-                      console.log(err);
-                    });
-                    break;
-                case 5:
-                    svodka.svodkaBishkek().then(
-                      (result)=>{
-                        output = result;
-                      }
-                    ).catch((err)=>{
-                      console.log(err);
-                    });
-                    break;
-                case 6:
-                    svodka.svodkaSouthCapital().then(
-                      (result)=>{
-                        output = result;
-                      }
-                    ).catch((err)=>{
-                      console.log(err);
-                    });
-                    break;
-            }
+
+            svodka.svodkaChui().then(
+              (result)=>{
+                output = result;
+              }
+            ).catch((err)=>{
+              console.log(err);
+            });
+
             console.log(output);
             sms(output, chatId, ip, function () {
               setTimeout(function() {
