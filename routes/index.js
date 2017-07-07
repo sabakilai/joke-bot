@@ -195,7 +195,7 @@ router.post("/", function(req, res, next) {
           }
           else if (content == "Подписка") {
             db.update({subscribed: true}, {where: {userId: userId}}).then(function(user) {
-              sms("Вы влючили ежедневную рассылку. " + changeRegion(subscribed), chatId, ip);
+              sms("Вы включили ежедневную рассылку. " + changeRegion(subscribed), chatId, ip);
             })
           }
           else if (content == "Последнее") {

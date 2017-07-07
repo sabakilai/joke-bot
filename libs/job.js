@@ -277,79 +277,25 @@ function SendDailyMessages() {
       var userId = result.userId;
       var ip = result.ip;
       var region = result.region;
-      switch(region) {
-          case 1:
-              svodka.svodkaChui().then(
-                (result)=>{
-                  output = result;
-                }
-              ).catch((err)=>{
-                console.log(err);
-              });
-              break;
-          case 2:
-              svodka.svodkaOsh().then(
-                (result)=>{
-                  output = result;
-                }
-              ).catch((err)=>{
-                console.log(err);
-              });
-              break;
-          case 3:
-              svodka.svodkaNaryn().then(
-                (result)=>{
-                  output = result;
-                }
-              ).catch((err)=>{
-                console.log(err);
-              });
-              break;
-          case 4:
-              svodka.svodkaIsyk().then(
-                (result)=>{
-                  output = result;
-                }
-              ).catch((err)=>{
-                console.log(err);
-              });
-              break;
-          case 5:
-              svodka.svodkaBishkek().then(
-                (result)=>{
-                  output = result;
-                }
-              ).catch((err)=>{
-                console.log(err);
-              });
-              break;
-          case 6:
-              svodka.svodkaSouthCapital().then(
-                (result)=>{
-                  output = result;
-                }
-              ).catch((err)=>{
-                console.log(err);
-              });
-              break;
-      }
-      newChat(userId, ip, function(err, res, body) {
-        if(body.data) {
-          var chatId = body.data.id;
-        }
-        sms(output, chatId, ip, function() {
-          setTimeout(function() {
-            if (newMesMessage == 1){
-              svodka.svodkaMes().then(
-                (result)=>{
-                  sms(result, chatId, ip);
-                }
-              ).catch((err)=>{
-                console.log(err);
-              });
-            }
-          }, 3000);
-        });
+      svodka.svodkaOne(region).then((output)=>{
+        newChat(userId, ip, function(err, res, body) {
+          if(body.data) {
+            var chatId = body.data.id;
+          }
+          sms(output, chatId, ip, function() {
+            setTimeout(function() {
+              if (newMesMessage == 1){
+                svodka.svodkaMes().then(
+                  (result)=>{
+                    sms(result, chatId, ip);
+                  }
+                ).catch((err)=>{
+                  console.log(err);
+                });
+              }
+            }, 3000);
+          });
+        })
       })
     })
   });
