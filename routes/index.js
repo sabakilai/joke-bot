@@ -201,7 +201,7 @@ router.post("/", function(req, res, next) {
                sms(message, chatId, ip);
              })
            } else {
-             db.update({subscribed: true}, {where: {userId: userId, ip: ip}}).then(function(user) {
+             db.update({subscribed: true}, {where: {userId: userId}}).then(function(user) {
                let message = "Вы включили ежедневную рассылку. "+changeRegion(!subscribed);
                sms(message, chatId, ip);
              })
