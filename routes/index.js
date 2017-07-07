@@ -202,17 +202,14 @@ router.post("/", function(req, res, next) {
 
             svodka.svodkaChui().then(
               (result)=>{
-                output = result;
+                sms(result, chatId, ip, function () {
+                  setTimeout(function() {
+                    sms(changeRegion(user), chatId, ip);
+                  }, 3000);
+                });
               }
             ).catch((err)=>{
               console.log(err);
-            });
-
-            console.log(output);
-            sms(output, chatId, ip, function () {
-              setTimeout(function() {
-                sms(changeRegion(user), chatId, ip);
-              }, 3000);
             });
           }
           else {
