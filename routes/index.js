@@ -199,17 +199,10 @@ router.post("/", function(req, res, next) {
           else if (content == "Последнее") {
             var output;
             console.log(user.region);
-
-            svodka.svodkaChui().then(
-              (result)=>{
-                sms(result, chatId, ip, function () {
-                  setTimeout(function() {
-                    sms(changeRegion(user), chatId, ip);
-                  }, 3000);
-                });
-              }
-            ).catch((err)=>{
-              console.log(err);
+            sms(svodka.svodkaOne(user.region), chatId, ip, function () {
+              setTimeout(function() {
+                sms(changeRegion(user), chatId, ip);
+              }, 3000);
             });
           }
           else {

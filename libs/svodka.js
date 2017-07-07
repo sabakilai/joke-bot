@@ -154,5 +154,63 @@ module.exports = {
         resolve(resultat);
       })
     });
+  },
+  svodkaOne(region){
+    switch(region) {
+        case 1:
+            svodka.svodkaChui().then(
+              (result)=>{
+                return result;
+              }
+            ).catch((err)=>{
+              console.log(err);
+            });
+            break;
+        case 2:
+            svodka.svodkaOsh().then(
+              (result)=>{
+                return result;
+              }
+            ).catch((err)=>{
+              console.log(err);
+            });
+            break;
+        case 3:
+            svodka.svodkaNaryn().then(
+              (result)=>{
+                return result;
+              }
+            ).catch((err)=>{
+              console.log(err);
+            });
+            break;
+        case 4:
+            svodka.svodkaIsyk().then(
+              (result)=>{
+                return result;
+              }
+            ).catch((err)=>{
+              console.log(err);
+            });
+            break;
+        case 5:
+            svodka.svodkaBishkek().then(
+              (result)=>{
+                return result;
+              }
+            ).catch((err)=>{
+              console.log(err);
+            });
+            break;
+        case 6:
+            svodka.svodkaSouthCapital().then(
+              (result)=>{
+                return result;
+              }
+            ).catch((err)=>{
+              console.log(err);
+            });
+            break;
+    }
   }
 };
