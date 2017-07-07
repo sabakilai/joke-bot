@@ -37,7 +37,7 @@ router.post("/", function(req, res, next) {
         console.log("user follows");
         newChat(userId, ip, function(err, res, body) {
           var chatId = body.data.id;
-          var message = "Здравствуйте!Я буду присылать вам самые свежие сообщения о погоде." + selectRegion();
+          var message = "Здравствуйте! Я буду присылать вам самые свежие сообщения о погоде." + selectRegion();
           sms(message, chatId, ip);
         })
       });
