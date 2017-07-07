@@ -20,8 +20,9 @@ router.post("/", function(req, res, next) {
     var selectRegion = function() {
       return " Выберите регион в котором вы находитесь, для этого введите нужную цифру:\n1⃣ Чуйская и Таласcкая области.\n2⃣Ошская, Жалалабадская и Баткенская области. \n3⃣ Нарынская область. \n4⃣ Иссык-Кульская область.  \n5⃣ Бишкек. \n6⃣ Ош.";
     }
-    var changeRegion = function () {
-      return "Введите 'cменить', чтобы сменить регион "
+    var changeRegion = function (user) {
+      return "Введите 'Cменить', чтобы сменить регион.\nВведите 'Подписка', чтобы " +(user.state ? "отключить" : "включить") + " ежедневную рассылку." +
+              (user.subscribed ? "" : "\nВведите 'Последнее', чтобы получить последнюю рассылку по Вашему региону.")
     }
 
     if(event == "user/unfollow") {
@@ -40,6 +41,7 @@ router.post("/", function(req, res, next) {
           sms(message, chatId, ip);
         })
       });
+
     }
     if(event == "message/new") {
       var userId = req.body.data.sender_id;
@@ -65,7 +67,7 @@ router.post("/", function(req, res, next) {
                     (result)=>{
                       sms(result, chatId, ip,function() {
                         setTimeout(function() {
-                          sms(changeRegion(), chatId, ip);
+                          sms(changeRegion(user), chatId, ip);
                         }, 3000);
                       });
                     }
@@ -86,7 +88,7 @@ router.post("/", function(req, res, next) {
                     (result)=>{
                       sms(result, chatId, ip,function() {
                         setTimeout(function() {
-                          sms(changeRegion(), chatId, ip);
+                          sms(changeRegion(user), chatId, ip);
                         }, 3000);
                       });
                     }
@@ -106,7 +108,7 @@ router.post("/", function(req, res, next) {
                     (result)=>{
                       sms(result, chatId, ip,function() {
                         setTimeout(function() {
-                          sms(changeRegion(), chatId, ip);
+                          sms(changeRegion(user), chatId, ip);
                         }, 3000);
                       });
                     }
@@ -126,7 +128,7 @@ router.post("/", function(req, res, next) {
                     (result)=>{
                       sms(result, chatId, ip,function() {
                         setTimeout(function() {
-                          sms(changeRegion(), chatId, ip);
+                          sms(changeRegion(user), chatId, ip);
                         }, 3000);
                       });
                     }
@@ -147,7 +149,7 @@ router.post("/", function(req, res, next) {
                     (result)=>{
                       sms(result, chatId, ip,function() {
                         setTimeout(function() {
-                          sms(changeRegion(), chatId, ip);
+                          sms(changeRegion(user), chatId, ip);
                         }, 3000);
                       });
                     }
@@ -167,7 +169,7 @@ router.post("/", function(req, res, next) {
                     (result)=>{
                       sms(result, chatId, ip,function() {
                         setTimeout(function() {
-                          sms(changeRegion(), chatId, ip);
+                          sms(changeRegion(user), chatId, ip);
                         }, 3000);
                       });
                     }
@@ -188,7 +190,77 @@ router.post("/", function(req, res, next) {
             db.update({state: true}, {where: {userId: userId}}).then(function(user) {
               sms(selectRegion(), chatId, ip);
             })
-          } else {
+          }
+          else if (content == "Подписка") {
+            db.update({subscribed: true}, {where: {userId: userId}}).then(function(user) {
+              sms("Вы влючили ежедневную рассылку. " + changeRegion(user), chatId, ip);
+            })
+          }
+          else if (content == "Последнее") {
+            var output;
+            switch(user.region) {
+                case 1:
+                    svodka.svodkaChui().then(
+                      (result)=>{
+                        output = result;
+                      }
+                    ).catch((err)=>{
+                      console.log(err);
+                    });
+                    break;
+                case 2:
+                    svodka.svodkaOsh().then(
+                      (result)=>{
+                        output = result;
+                      }
+                    ).catch((err)=>{
+                      console.log(err);
+                    });
+                    break;
+                case 3:
+                    svodka.svodkaNaryn().then(
+                      (result)=>{
+                        output = result;
+                      }
+                    ).catch((err)=>{
+                      console.log(err);
+                    });
+                    break;
+                case 4:
+                    svodka.svodkaIsyk().then(
+                      (result)=>{
+                        output = result;
+                      }
+                    ).catch((err)=>{
+                      console.log(err);
+                    });
+                    break;
+                case 5:
+                    svodka.svodkaBishkek().then(
+                      (result)=>{
+                        output = result;
+                      }
+                    ).catch((err)=>{
+                      console.log(err);
+                    });
+                    break;
+                case 6:
+                    svodka.svodkaSouthCapital().then(
+                      (result)=>{
+                        output = result;
+                      }
+                    ).catch((err)=>{
+                      console.log(err);
+                    });
+                    break;
+            }
+            sms(output, chatId, ip, function () {
+              setTimeout(function() {
+                sms(changeRegion(user), chatId, ip);
+              }, 3000);
+            });
+          }
+          else {
             console.log(errMessage);
         		sms(errMessage, chatId, ip);
           }

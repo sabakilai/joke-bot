@@ -19,6 +19,10 @@ var user = sequelize.define("user", {
 	region: {
 		type: Sequelize.INTEGER,
 	    defaultValue: 7
+	},
+	subscribed:{
+		type.Sequelize.BOOLEAN,
+			defaultValue:false
 	}
 })
 
