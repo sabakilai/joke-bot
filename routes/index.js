@@ -22,7 +22,7 @@ router.post("/", function(req, res, next) {
     }
     var changeRegion = function (subscribed) {
       return "Введите 'Cменить', чтобы сменить регион.\nВведите 'Подписка', чтобы " +(subscribed ? "отключить" : "включить") + " ежедневную рассылку." +
-              (subscribed ? "" : "\nВведите 'Последнее', чтобы получить последнюю рассылку по Вашему региону.")
+              (subscribed ? "" : "\nВведите 'Последнее', чтобы получить последнюю сводку по Вашему региону.")
     }
 
     if(event == "user/unfollow") {
@@ -194,9 +194,17 @@ router.post("/", function(req, res, next) {
             })
           }
           else if (content == "Подписка") {
-            db.update({subscribed: true}, {where: {userId: userId}}).then(function(user) {
-              sms("Вы включили ежедневную рассылку. " + changeRegion(subscribed), chatId, ip);
-            })
+            if(subscribed) {
+             db.update({subscribed: false}, {where: {userId: userId}}).then(function(user) {
+               let message = "Вы отключили ежедневную рассылку."+changeRegion(!subscribed);
+               sms(message, chatId, ip, token);
+             })
+           } else {
+             db.update({subscribed: true}, {where: {userId: userId, ip: ip}}).then(function(user) {
+               let message = "Вы включили ежедневную рассылку."+changeRegion(!subscribed);
+               sms(message, chatId, ip, token);
+             })
+           }
           }
           else if (content == "Последнее") {
             var output;
