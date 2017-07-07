@@ -169,6 +169,7 @@ router.post("/", function(req, res, next) {
                     (result)=>{
                       sms(result, chatId, ip,function() {
                         setTimeout(function() {
+                          console.log(uset.subscribed);
                           sms(changeRegion(user), chatId, ip);
                         }, 3000);
                       });
