@@ -20,8 +20,8 @@ router.post("/", function(req, res, next) {
     var selectRegion = function() {
       return " Выберите регион в котором вы находитесь, для этого введите нужную цифру:\n1⃣ Чуйская и Таласcкая области.\n2⃣Ошская, Жалалабадская и Баткенская области. \n3⃣ Нарынская область. \n4⃣ Иссык-Кульская область.  \n5⃣ Бишкек. \n6⃣ Ош.";
     }
-    var changeRegion = function (user) {
-      return "Введите 'Cменить', чтобы сменить регион.\nВведите 'Подписка', чтобы " +(user.subscribed ? "отключить" : "включить") + " ежедневную рассылку." +
+    var changeRegion = function (subscribed) {
+      return "Введите 'Cменить', чтобы сменить регион.\nВведите 'Подписка', чтобы " +(subscribed ? "отключить" : "включить") + " ежедневную рассылку." +
               (user.subscribed ? "" : "\nВведите 'Последнее', чтобы получить последнюю рассылку по Вашему региону.")
     }
 
@@ -50,6 +50,7 @@ router.post("/", function(req, res, next) {
 
       	var content = req.body.data.content;
       	var chatId = req.body.data.chat_id;
+        var subscribed = user.subscribed;
       	if(req.body.data.type != 'text/plain') {
       		console.log(errMessage);
       		sms(errMessage, chatId, ip);
@@ -169,7 +170,7 @@ router.post("/", function(req, res, next) {
                     (result)=>{
                       sms(result, chatId, ip,function() {
                         setTimeout(function() {
-                          console.log(user.subscribed);
+                          console.log(subscribed);
                           sms(changeRegion(user), chatId, ip);
                         }, 3000);
                       });
@@ -186,7 +187,7 @@ router.post("/", function(req, res, next) {
         		sms(errMessage, chatId, ip);
           }
         } else {
-          var errMessage = "Некорректный ввод. " + changeRegion(user);
+          var errMessage = "Некорректный ввод. " + changeRegion(subscribed);
           if(content == "Сменить"){
             db.update({state: true}, {where: {userId: userId}}).then(function(user) {
               sms(selectRegion(), chatId, ip);
@@ -194,7 +195,7 @@ router.post("/", function(req, res, next) {
           }
           else if (content == "Подписка") {
             db.update({subscribed: true}, {where: {userId: userId}}).then(function(user) {
-              sms("Вы влючили ежедневную рассылку. " + changeRegion(user), chatId, ip);
+              sms("Вы влючили ежедневную рассылку. " + changeRegion(subscribed), chatId, ip);
             })
           }
           else if (content == "Последнее") {
@@ -202,7 +203,7 @@ router.post("/", function(req, res, next) {
             svodka.svodkaOne(user.region).then((result)=>{
               sms(result, chatId, ip, function () {
                 setTimeout(function() {
-                  sms(changeRegion(user), chatId, ip);
+                  sms(changeRegion(subscribed), chatId, ip);
                 }, 3000);
               });
             })
