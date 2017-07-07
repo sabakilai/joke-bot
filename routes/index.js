@@ -198,6 +198,7 @@ router.post("/", function(req, res, next) {
           }
           else if (content == "Последнее") {
             var output;
+            console.log(user.region);
             switch(user.region) {
                 case 1:
                     svodka.svodkaChui().then(
@@ -254,6 +255,7 @@ router.post("/", function(req, res, next) {
                     });
                     break;
             }
+            console.log(output);
             sms(output, chatId, ip, function () {
               setTimeout(function() {
                 sms(changeRegion(user), chatId, ip);
