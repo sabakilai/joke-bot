@@ -158,7 +158,7 @@ module.exports = {
   svodkaOne(region){
     switch(region) {
         case 1:
-            svodka.svodkaChui().then(
+            this.svodkaChui().then(
               (result)=>{
                 return result;
               }
@@ -167,7 +167,7 @@ module.exports = {
             });
             break;
         case 2:
-            svodka.svodkaOsh().then(
+            this.svodkaOsh().then(
               (result)=>{
                 return result;
               }
@@ -176,7 +176,7 @@ module.exports = {
             });
             break;
         case 3:
-            svodka.svodkaNaryn().then(
+            this.svodkaNaryn().then(
               (result)=>{
                 return result;
               }
@@ -185,7 +185,7 @@ module.exports = {
             });
             break;
         case 4:
-            svodka.svodkaIsyk().then(
+            this.svodkaIsyk().then(
               (result)=>{
                 return result;
               }
@@ -194,7 +194,7 @@ module.exports = {
             });
             break;
         case 5:
-            svodka.svodkaBishkek().then(
+            this.svodkaBishkek().then(
               (result)=>{
                 return result;
               }
@@ -203,7 +203,7 @@ module.exports = {
             });
             break;
         case 6:
-            svodka.svodkaSouthCapital().then(
+            this.svodkaSouthCapital().then(
               (result)=>{
                 return result;
               }
