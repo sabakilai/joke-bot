@@ -271,7 +271,7 @@ function GetMesMessage() {
 };
 
 function SendDailyMessages() {
-  db.findAll().then(function(results) {
+  db.findAll({where: {subscribed: true }}).then(function(results) {
     async.each(results, function(result,callback){
       var changeRegion = function (subscribed) {
         return "Введите 'Cменить', чтобы сменить регион.\nВведите 'Подписка', чтобы " +(subscribed ? "отключить" : "включить") + " ежедневную рассылку." +
