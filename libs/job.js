@@ -299,7 +299,7 @@ function SendDailyMessages() {
                 });
               }
               sms(changeRegion(subscribed),chatId,ip);
-            }, 3000);
+            }, 5000);
           });
         })
       })
