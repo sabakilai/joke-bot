@@ -284,23 +284,27 @@ function SendDailyMessages() {
       var subscribed = result.subscribed;
       svodka.svodkaOne(region).then((output)=>{
         newChat(userId, ip, function(err, res, body) {
-          if(body.data) {
-            var chatId = body.data.id;
+          if (body) {
+            if(body.data) {
+              var chatId = body.data.id;
+            }
+            sms(output, chatId, ip, function() {
+              setTimeout(function() {
+                if (newMesMessage == 1){
+                  svodka.svodkaMes().then(
+                    (result)=>{
+                      sms(result, chatId, ip);
+                    }
+                  ).catch((err)=>{
+                    console.log(err);
+                  });
+                }
+                sms(changeRegion(subscribed),chatId,ip);
+              }, 5000);
+            });
+          } else {
+            console.log('Body is undefined! ip - ' + ip + '; UserId - ' + userId);
           }
-          sms(output, chatId, ip, function() {
-            setTimeout(function() {
-              if (newMesMessage == 1){
-                svodka.svodkaMes().then(
-                  (result)=>{
-                    sms(result, chatId, ip);
-                  }
-                ).catch((err)=>{
-                  console.log(err);
-                });
-              }
-              sms(changeRegion(subscribed),chatId,ip);
-            }, 5000);
-          });
         })
       })
     })
