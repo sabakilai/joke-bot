@@ -12,7 +12,6 @@ AWS.config.loadFromPath('./bucket.json');
 var s3 = new AWS.S3();
 
 var newMesMessage = 0;
-
 module.exports = {
   MainJob(){
     let message = [];
