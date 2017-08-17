@@ -1,7 +1,10 @@
 var Sequelize = require("sequelize");
 var sequelize = new Sequelize("d6mj1dlabcqktm", "yuoxfljtvpjfle", "90b156183131cbec93fcea0aa1d1d91fd7589c70f527ac7a1fec221e06442b68", {
 	host: "ec2-54-225-71-119.compute-1.amazonaws.com",
-	dialect: "postgres"
+	dialect: "postgres",
+	dialectOptions: {
+		ssl: true
+	}
 });
 
 var user = sequelize.define("user", {
