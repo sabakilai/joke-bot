@@ -65,8 +65,5 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
-setInterval(function() {
-    console.log("Dont sleep!");
-    http.get("http://jokebotkg.herokuapp.com");
-}, 300000); // every 5 minutes (300000)
+
 module.exports = app;
