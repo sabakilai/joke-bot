@@ -18,7 +18,7 @@ router.post("/", function(req, res, next) {
   var ip = req.connection.remoteAddress;
     var event = req.body.event;
     var selectRegion = function() {
-      return " Выберите регион в котором вы находитесь, для этого введите нужную цифру:\n1⃣ Чуйская и Таласcкая области.\n2⃣Ошская, Жалалабадская и Баткенская области. \n3⃣ Нарынская область. \n4⃣ Иссык-Кульская область.  \n5⃣ Бишкек. \n6⃣ Ош.";
+      return " Выберите регион, в котором находитесь, отправив нужную цифру:\n1⃣ Чуйская и Таласcкая области.\n2⃣Ошская, Жалалабадская и Баткенская области. \n3⃣ Нарынская область. \n4⃣ Иссык-Кульская область.  \n5⃣ Бишкек. \n6⃣ Ош.";
     }
     var changeRegion = function (subscribed) {
       return "Введите 'Cменить', чтобы сменить регион.\nВведите 'Подписка', чтобы " +(subscribed ? "отключить" : "включить") + " ежедневную рассылку." +
@@ -58,9 +58,9 @@ router.post("/", function(req, res, next) {
       		return;
       	}
         if (user.state){
-          var errMessage = "Некорректный ввод. " + selectRegion();
+          var errMessage = "Неверная команда. " + selectRegion();
           if(content == "1") {
-            var message = "Вы установили рассылку на Чуйскую и Таласcкую области. Вот последняя сводка по этому региону";
+            var message = "Вы подключили ежедневную рассылку на Чуйскую и Таласcкую области. Следующим сообщением вы получите сводку по этому региону.";
             db.update({region: 1, state:false}, {where: {userId: userId}}).then(function(user) {
 
               sms(message, chatId, ip, function() {
@@ -82,7 +82,7 @@ router.post("/", function(req, res, next) {
             })
           }
           else if(content == "2") {
-            var message = "Вы установили рассылку на Ошскую, Жалалабадскую и Баткенскую области. Вот последняя сводка по этому региону";
+            var message = "Вы подключили ежедневную рассылку на Ошскую, Жалалабадскую и Баткенскую области. Следующим сообщением вы получите сводку по этому региону.";
             db.update({region: 2, state:false}, {where: {userId: userId}}).then(function(user) {
               sms(message, chatId, ip, function() {
                 setTimeout(function() {
@@ -102,7 +102,7 @@ router.post("/", function(req, res, next) {
             })
           }
           else if(content == "3") {
-            var message = "Вы установили рассылку на Нарынскую область. Вот последняя сводка по этому региону";
+            var message = "Вы подключили ежедневную рассылку на Нарынскую область. Следующим сообщением вы получите сводку по этому региону.";
             db.update({region: 3, state:false}, {where: {userId: userId}}).then(function(user) {
               sms(message, chatId, ip, function() {
                 setTimeout(function() {
@@ -122,7 +122,7 @@ router.post("/", function(req, res, next) {
             })
           }
           else if(content == "4") {
-            var message = "Вы установили рассылку на Иссык-Кульскую область. Вот последняя сводка по этому региону";
+            var message = "Вы подключили ежедневную рассылку на Иссык-Кульскую область. Следующим сообщением вы получите сводку по этому региону.";
             db.update({region: 4, state:false}, {where: {userId: userId}}).then(function(user) {
               sms(message, chatId, ip, function() {
                 setTimeout(function() {
@@ -142,7 +142,7 @@ router.post("/", function(req, res, next) {
             })
           }
           else if(content == "5") {
-            var message = "Вы установили рассылку на Бишкек. Вот последняя сводка по этому региону";
+            var message = "Вы подключили ежедневную рассылку на Бишкек. Следующим сообщением вы получите сводку по этому региону.";
 
             db.update({region: 5, state:false}, {where: {userId: userId}}).then(function(user) {
               sms(message, chatId, ip, function() {
@@ -163,7 +163,7 @@ router.post("/", function(req, res, next) {
             })
           }
           else if(content == "6") {
-            var message = "Вы установили рассылку на Ош. Вот последняя сводка по этому региону";
+            var message = "Вы подключили ежедневную рассылку на Ош. Следующим сообщением вы получите сводку по этому региону.";
             db.update({region: 6, state:false}, {where: {userId: userId}}).then(function(user) {
               sms(message, chatId, ip, function() {
                 setTimeout(function() {
@@ -188,7 +188,7 @@ router.post("/", function(req, res, next) {
         		sms(errMessage, chatId, ip);
           }
         } else {
-          var errMessage = "Некорректный ввод. " + changeRegion(subscribed);
+          var errMessage = "Неверная команда. " + changeRegion(subscribed);
           if(content == "Сменить"){
             db.update({state: true}, {where: {userId: userId}}).then(function(user) {
               sms(selectRegion(), chatId, ip);

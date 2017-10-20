@@ -273,8 +273,8 @@ function SendDailyMessages() {
   db.findAll({where: {subscribed: true }}).then(function(results) {
     async.each(results, function(result,callback){
       var changeRegion = function (subscribed) {
-        return "Введите 'Cменить', чтобы сменить регион.\nВведите 'Подписка', чтобы " +(subscribed ? "отключить" : "включить") + " ежедневную рассылку." +
-                (subscribed ? "" : "\nВведите 'Последнее', чтобы получить последнюю рассылку по Вашему региону.")
+        return "Для внесения изменений, пришлите мне одну из команд:\n'Cменить', чтобы выбрать регион.\n'Подписка', чтобы " +(subscribed ? "отключить" : "включить") + " ежедневную рассылку." +
+                (subscribed ? "" : "\n'Последнее', чтобы получить последнюю рассылку по Вашему региону.")
       }
       var output;
       var userId = result.userId;
