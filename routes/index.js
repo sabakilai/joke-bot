@@ -182,6 +182,8 @@ router.post("/", function(req, res, next) {
                 }, 1000);
               })
             })
+          } else if (content == "Старт") {
+            sms(selectRegion(),chatId,ip);
           }
           else {
             console.log(errMessage);
@@ -216,6 +218,9 @@ router.post("/", function(req, res, next) {
                 }, 3000);
               });
             })
+          } 
+          else if (content == "Старт") {
+            sms(changeRegion(),chatId,ip);
           }
           else {
             console.log(errMessage);
